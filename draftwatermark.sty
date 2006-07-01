@@ -1,0 +1,45 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{draftwatermark}[2006/06/30 R1.0]
+\RequirePackage{everypage}
+\RequirePackage{graphicx}
+\RequirePackage{color}
+
+\newlength\sc@watermarksize
+%% defaults
+\def\sc@watermarkangle{45}
+\def\sc@watermarkdarkness{0.8}
+\def\sc@watermarkscale{1}
+\setlength\sc@watermarksize{5cm}
+\def\sc@watermarktext{DRAFT}
+
+\newcommand\SetWatermarkAngle[1]{%
+  \def\sc@watermarkangle{#1}}
+\newcommand\SetWatermarkDarkness[1]{%
+  \def\sc@watermarkdarkness{#1}}
+\newcommand\SetWatermarkFontSize[1]{%
+  \setlength\sc@watermarksize{#1}}
+\newcommand\SetWatermarkScale[1]{%
+  \def\sc@watermarkscale{#1}}
+\newcommand\SetWatermarkText[1]{%
+  \def\sc@watermarktext{#1}}
+
+\newcommand\sc@watermark{%
+  \setlength{\@tempdimb}{.5\paperwidth}%
+  \setlength{\@tempdimc}{-.5\paperheight}%
+  \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
+    \makebox(0,0){\rotatebox{\sc@watermarkangle}{%
+        \scalebox{\sc@watermarkscale}{%
+        \textcolor[gray]{\sc@watermarkdarkness}{
+          \fontsize{\sc@watermarksize}{1.2\sc@watermarksize}
+          \selectfont{\sc@watermarktext}}}}}}}
+
+\newcommand\sc@watermark@print[1]{%
+  \setbox\@tempboxa\vbox to\z@{% 
+    \vskip-1in \moveleft1in \vbox{% 
+      \hbox to \z@{% 
+        #1\hss}}\vss} 
+  \dp\@tempboxa\z@  
+  \box\@tempboxa}
+
+\AtBeginDocument{%
+  \AddEverypageHook{\sc@watermark@print{\sc@watermark}}}
