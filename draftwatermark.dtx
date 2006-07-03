@@ -1,0 +1,383 @@
+% \iffalse meta-comment
+%
+% Copyright 2006
+% Sergio Callegari <sergio.callegari@gmail.com>
+%
+% ---------------------------------------------
+% This file is part of the everypage package,
+% a contribution to the LaTeX2e system.
+% ---------------------------------------------
+%
+% It may be distributed and/or modified under the conditions of the
+% LaTeX Project Public License, either version 1.3 of this licence, or
+% any later version. The latest version of this license is at
+% http://www.latex-project.org/lppl.txt and version 1.3 is part
+% of all distributions of LaTeX version 2003/06/01 or later.
+%
+% This work has the LPPL maintenance status "author-maintained".
+%
+% This program consists of the files listed in the README file
+% included in the package.
+%
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{mathptmx, helvet, courier}
+\EnableCrossrefs
+\DoNotIndex{\def,\gdef,\let,\NeedsTeXFormat,\newcommand}
+\DoNotIndex{\ProvidesPackage,\endinput}
+\DoNotIndex{\box,\dp,\fontsize,\ifx,\else,\fi}
+\DoNotIndex{\hbox,\hss,\makebox,\moveleft,\newif,\newlength}
+\DoNotIndex{\ProcessOptions,\vbox,\vss,\z@}
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \DocInput{draftwatermark.dtx}
+\end{document}
+%</driver>
+%
+% \fi
+%
+% \CheckSum{96}
+%
+% \def\filename{draftwatermark.dtx}
+% \def\fileversion{1.0}
+% \def\filedate{2006/06/30}
+% \def\docdate{2006/06/30}
+%
+% \newcommand*{\Lpack}[1]{\textsf {#1}}           ^^A typeset a package
+% \newcommand*{\Lopt}[1]{\textsf {#1}}            ^^A typeset an option
+% \newcommand*{\file}[1]{\texttt {#1}}            ^^A typeset a file
+% \newcommand*{\Lcount}[1]{\textsl {\small#1}}    ^^A typeset a counter
+% \newcommand*{\pstyle}[1]{\textsl {#1}}          ^^A typeset a pagestyle
+% \newcommand*{\Lenv}[1]{\texttt {#1}}            ^^A typeset an environment
+%
+% \title{The \Lpack{draftwatermark} package\thanks{This file
+%     (\texttt{\filename}) has version number \fileversion, last
+%     revised \filedate.}}
+%
+% \author{%
+%   Sergio Callegari\thanks{Sergio Callegari can be reached at
+%       \texttt{sergio.callegar at gmail dot com}}} 
+%
+% \date{\docdate}
+%
+% \maketitle
+%
+% \begin{abstract}
+%   The \Lpack{draftwatermark} package extends \LaTeX\ providing a
+%   means to add a textual, light gray watermark on every page or on
+%   the first page of a document. Typical usage may consist in writing
+%   words such as \emph{DRAFT} or \emph{CONFIDENTIAL} across document
+%   pages. The package may remind in some sense \Lpack{draftcopy} by
+%   Dr. Juergen Vollmer, but its implementation is much lighter (as
+%   the reduced code footprint shows) and does not rely on postscript
+%   specials, making the package fully compatible with pdf\LaTeX. The
+%   package depends on \Lpack{everypage} by the same author.
+% \end{abstract}
+% 
+% \section{Introduction}
+% 
+% This program extends \LaTeX\ providing a means to add a textual,
+% light gray watermark on every page or on the first page of a
+% document. Typical usage may consist in writing words such as
+% \emph{DRAFT} or \emph{CONFIDENTIAL} across document pages. Typical
+% usage may consist in writing words such as \emph{DRAFT} or
+% \emph{CONFIDENTIAL} across document pages. The package may remind in
+% some sense \Lpack{draftcopy} by Dr. Juergen Vollmer, but its
+% implementation differs by a few points:
+% \begin{enumerate}
+% \item Code footprint is much, much smaller (about one order of
+%   magnitude smaller), although this does not mean much on modern
+%   computers.
+% \item There is no use of Postscript specials or other
+%   driver-dependent tricks, so the package should be compatible with
+%   any output driver and with pdf\LaTeX\ in particular. Lack of
+%   compatibility with pdf\LaTeX\ in these days is the biggest pitfall
+%   of \Lpack{draftcopy} and was the first motivation for writing
+%   \Lpack{draftwatermark}.
+% \item Reduced code footprint comes at some price with regards to
+% features. Many features of \Lpack{draftcopy} are not supported here,
+% most notably \Lpack{draftwatermark} has:
+% \begin{itemize}
+% \item No automatic selection of the watermark text to use, depending on
+%   the language, using translations of the word ``DRAFT''. However,
+%   this is no big loss, since there is a possibility to set the text
+%   to use explicitly, and this leaves the freedom to chose whatever
+%   text one happens to prefer, including things that have nothing to
+%   do with the word ``DRAFT'' (e.g., ``CONFIDENTIAL'', ``FOR YOUR
+%   EYES ONLY'', etc.).
+% \item No possibility to put the watermark at the bottom of the page.
+% Watermarks are placed at the center of the page.
+% \item No possibility to selectively activate or disactivate
+% operation depending on the global draft and final options.
+% No possibility to watermark only the first \emph{two} pages of a
+% document. However, it is possible to watermark only the first.
+% \end{itemize}
+% Other features available as options in \Lpack{draftcopy} (e.g., the
+% possibility of time-stamping the watermark text) can qbe obtained
+% working on the watermark text itself.
+% \item Dependence on the \Lpack{everypage} package by the same
+% author.
+% \end{enumerate}
+% 
+% \section{User interface}
+% When loaded, \Lpack{draftwatermark} sets up a number of defaults
+% (detailed later and modifiable by specific commands) and immediately
+% becomes active. If loaded as
+% \begin{quote}
+% |\usepackage{draftwatermark}|
+% \end{quote}
+% the package sets up itself to put a background text on every
+% page. Alternatively, if loaded as
+% \begin{quote}
+% |\usepackage[firstpage]{draftwatermark}|
+% \end{quote}
+% the package sets up itself to put a background text only on the
+% first page.
+%
+% \subsection{Default behavior and commands to modify it}
+% The package defaults are illustrated in table~\ref{tbl:defaults}.
+%
+% \begin{table}[ht]
+%   \begin{center}
+%     \DeleteShortVerb{\|}
+%     \begin{tabular}{|p{0.6\linewidth}|c|}
+%       \hline
+%       \MakeShortVerb{\|}       
+%       Behavior & Default value\\
+%       \hline\hline
+%       Angle at which the watermark text is drawn & 45°\\
+%       Lightness of the watermark text (1=white, 0=black) & 0.8\\
+%       Font size of the watermark text & 5$\;$cm\\
+%       Scaling of the watermark text & 1.2\\
+%       Watermark text & DRAFT\\
+%       \hline
+%     \end{tabular}
+%   \end{center}
+%   \caption{Package defaults.}
+%   \label{tbl:defaults}
+% \end{table}
+%
+% With reference to the defaults, note that:
+% \begin{enumerate}
+% \item the watermark text is always in gray;
+% \item the watermark font size cannot exceed a maximum value that is
+%   about 5$\;$cm.
+% \item the watermark scale can be any value. Using the default, the
+% word ``DRAFT'' at 45° uses up all the space on an A4 paper. To have
+% a good looking large text, it is better to enlarge the font size as
+% much as possibile, rather than using a small font size and pumping
+% up the scale.
+% \end{enumerate}
+%
+% \DescribeMacro{\SetWatermarkAngle}
+% \DescribeMacro{\SetWatermarkLightness}
+% \DescribeMacro{\SetWatermarkFontSize}
+% \DescribeMacro{\SetWatermarkScale}
+% \DescribeMacro{\SetWatermarkText}
+% Table~\ref{tbl:commands} illustrates the commands used to modify the
+% package behaviour. Note that there is exactly one command per
+% function and that every command takes a single argument.
+%
+% \begin{table}[ht]
+%   \begin{center}
+%     \DeleteShortVerb{\|}
+%     \begin{tabular}{|p{0.4\linewidth}|l|}
+%       \hline
+%       \MakeShortVerb{\|}
+%       Behavior & Command affecting it\\
+%       \hline\hline
+%       Angle at which the watermark text is drawn &
+%       |\SetWatermarkAngle{|\meta{real}|}|\\
+%       Lightness of the watermark text (1=white, 0=black) &
+%       |\SetWatermarkLightness{|\meta{real}|}|\\
+%       Font size of the watermark text &
+%       |\SetWatermarkFontSize{|\meta{lenght}|}|\\
+%       Scaling of the watermark text &
+%       |\SetWatermarkScale{|\meta{real}|}|\\
+%       Watermark text &
+%       |\SetWatermarkScale{|\meta{text}|}|\\
+%       \hline
+%     \end{tabular}
+%   \end{center}
+%   \caption{Commands affecting the package behavior.}
+%   \label{tbl:commands}
+% \end{table}
+%
+% Observe that the |\SetWatermarkFontSize| command takes a lenght
+% rather than a simple number. Also observe that multiline textual
+% watermarks can easily be obtained by the |\shortstack| command and
+% that there is the possibility of using an image rather than a text
+% (e.g., a ``caution, work in progress'' sign, etc.). 
+%
+% Note that once the package is loaded, there is no way to stop it.
+% In order to have textual watermarks that appear only when
+% specific conditions are met, conditionals must be included in the
+% watermarks.
+% 
+% Eventually consider that no special assumption is made on the
+% \LaTeX\ output driver, so \Lpack{everypage} should work equally well
+% with \LaTeX\ and pdf\LaTeX. Furthermore, the package should work
+% equally well with dvi, dvips, etc.\@ output drivers. Obviously, the
+% final compatibility with the different output drivers depends on the
+% actual code that is placed in the textual watermark.
+% 
+% \StopEventually {}
+% 
+% \section{Implementation}
+%
+% Announce the name and version of the package, which requires
+% \LaTeXe.
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{draftwatermark}%
+  [2006/06/30 1.0 Put a gray textual watermark on document pages]
+%    \end{macrocode}
+%
+% Require the needed packages. Note that if these are pre-loaded
+% before loading \Lpack{draftwatermark}, using suitable options to
+% preset behavior for a desired output driver, this is used also
+% here.
+%    \begin{macrocode}
+\RequirePackage{everypage}
+\RequirePackage{graphicx}
+\RequirePackage{color}
+%    \end{macrocode}
+%
+% \begin{macro}{\if@sc@wm@first}
+% Set up the conditional to store whether a watermark is needed only
+% on the first page or everywhere.
+%    \begin{macrocode}
+\newif\if@sc@wm@first
+\@sc@wm@firstfalse
+%    \end{macrocode}
+% \end{macro}
+% 
+% Declare the package options.
+%    \begin{macrocode}
+\DeclareOption{firstpage}{%
+  \@sc@wm@firsttrue}
+\ProcessOptions
+%    \end{macrocode}
+%
+% \begin{macro}{\sc@wm@angle}
+% \begin{macro}{\sc@wm@lightness}
+% \begin{macro}{\sc@wm@scale}
+% \begin{macro}{\sc@wm@fontsize}
+% \begin{macro}{\sc@wm@text}
+% Set up the package defaults.
+%    \begin{macrocode}
+\newlength\sc@wm@fontsize
+%% defaults
+\def\sc@wm@angle{45}
+\def\sc@wm@lightness{0.8}
+\def\sc@wm@scale{1}
+\setlength\sc@wm@fontsize{5cm}
+\def\sc@wm@text{DRAFT}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\SetWatermarkAngle}
+% \begin{macro}{\SetWatermarkLightness}
+% \begin{macro}{\SetWatermarkFontSize}
+% \begin{macro}{\SetWatermarkScale}
+% \begin{macro}{\SetWatermarkText}
+% Set up the commands to modify the behavior.
+%    \begin{macrocode}
+\newcommand\SetWatermarkAngle[1]{%
+  \def\sc@wm@angle{#1}}
+\newcommand\SetWatermarkLightness[1]{%
+  \def\sc@wm@lightness{#1}}
+\newcommand\SetWatermarkFontSize[1]{%
+  \setlength\sc@wm@fontsize{#1}}
+\newcommand\SetWatermarkScale[1]{%
+  \def\sc@wm@scale{#1}}
+\newcommand\SetWatermarkText[1]{%
+  \def\sc@wm@text{#1}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+%\begin{macro}{\sc@watermark}
+% The command to draw the watermark\ldots This assumes an origin in
+% the left top corner of the page (and also assumes that |\paperwidth|
+% and |\paperheight| are set correctly. There is no need to worry
+% about the horizontal and vertical size that is taken by the
+% watermark object. Note that this is typically a text, but
+% |\sc@wm@text| may well contain other material, e.g.\@ an
+% |\includegraphics| directive.
+%    \begin{macrocode}
+\newcommand\sc@watermark{%
+  \setlength{\@tempdimb}{.5\paperwidth}%
+  \setlength{\@tempdimc}{-.5\paperheight}%
+  \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
+    \makebox(0,0){\rotatebox{\sc@wm@angle}{%
+        \scalebox{\sc@wm@scale}{%
+        \textcolor[gray]{\sc@wm@lightness}{
+          \fontsize{\sc@wm@fontsize}{1.2\sc@wm@fontsize}
+          \selectfont
+          \sc@wm@text}}}}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\sc@wm@print}
+% The command to actually \emph{print} the watermark. It is assumed
+% that this is called before any other material is shipped to the
+% page. As such, the origin here is the page origin in Knuthian sense
+% (1 inch down, 1 inch right from the top left corner of the
+% page\ldots First of all, this is changed to the proper top left
+% corner of the page. 
+%    \begin{macrocode}
+\newcommand\sc@wm@print[1]{%
+  \setbox\@tempboxa\vbox to \z@{%
+    \vskip -1in \moveleft 1in \vbox{%
+      \hbox to \z@{%
+        #1\hss}}\vss}
+  \dp\@tempboxa\z@
+  \box\@tempboxa}
+%    \end{macrocode}
+% \end{macro}
+%
+% Eventually, set up the |\sc@wm@print| command to be called when
+% needed, using the appropriate \Lpack{everypage} hook.
+%    \begin{macrocode}
+\if@sc@wm@first
+\AddThispageHook{\sc@wm@print{\sc@watermark}}
+\else
+\AddEverypageHook{\sc@wm@print{\sc@watermark}}
+\fi
+\endinput
+%    \end{macrocode}
+%
+% \Finale
+% \PrintIndex
+%
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+\endinput
+
+%%% Local Variables: 
+%%% mode: doctex
+%%% TeX-master: t
+%%% End: 
+
