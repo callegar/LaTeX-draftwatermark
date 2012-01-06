@@ -67,27 +67,26 @@
 % \maketitle
 %
 % \begin{abstract}
-%   The \Lpack{draftwatermark} package extends \LaTeX\ providing a
-%   means to add a textual, light gray watermark on every page or on
-%   the first page of a document. Typical usage may consist in writing
-%   words such as \emph{DRAFT} or \emph{CONFIDENTIAL} across document
-%   pages. The package may remind in some sense \Lpack{draftcopy} by
-%   Dr.~Juergen Vollmer, but its implementation is much lighter (as
-%   the reduced code footprint shows) and does not rely on postscript
-%   specials, making the package fully compatible with pdf\LaTeX. The
-%   package depends on \Lpack{everypage} by the same author.
+%   The \Lpack{draftwatermark} package extends \LaTeX\ providing a means
+%   to add a textual (usually light gray, but possibly colored) watermark
+%   on every page or on the first page of a document. Typical usage may
+%   consist in writing words such as \emph{DRAFT} or \emph{CONFIDENTIAL}
+%   across document pages. The package may remind in some sense
+%   \Lpack{draftcopy} by Dr.~Juergen Vollmer, but its implementation is
+%   much lighter (as the reduced code footprint shows) and does not rely
+%   on postscript specials, making the package fully compatible with
+%   pdf\LaTeX. The package depends on \Lpack{everypage} by the same
+%   author.
 % \end{abstract}
 % 
 % \section{Introduction}
 % 
 % This program extends \LaTeX\ providing a means to add a textual,
-% light gray watermark on every page or on the first page of a
-% document. Typical usage may consist in writing words such as
-% \emph{DRAFT} or \emph{CONFIDENTIAL} across document pages. Typical
-% usage may consist in writing words such as \emph{DRAFT} or
-% \emph{CONFIDENTIAL} across document pages. The package may remind in
-% some sense \Lpack{draftcopy} by Dr.~Juergen Vollmer, but its
-% implementation differs by a few points:
+% (usually light gray, but possibly colored) watermark on every page or on
+% the first page of a document. Typical usage may consist in writing words
+% such as \emph{DRAFT} or \emph{CONFIDENTIAL} across document pages. The
+% package may remind in some sense \Lpack{draftcopy} by Dr.~Juergen
+% Vollmer, but its implementation differs by a few points:
 % \begin{enumerate}
 % \item Code footprint is much, much smaller (about one order of
 %   magnitude smaller), although this does not mean much on modern
@@ -164,7 +163,7 @@
 %       Behavior & Default value\\
 %       \hline\hline
 %       Angle at which the watermark text is drawn & 45°\\
-%       Lightness of the watermark text (1=white, 0=black) & 0.8\\
+%       Color of the watermark text & gray 80\%\\       
 %       Font size of the watermark text & 5$\;$cm\\
 %       Scaling of the watermark text & 1.2\\
 %       Watermark text & DRAFT\\
@@ -177,7 +176,6 @@
 %
 % With reference to the defaults, note that:
 % \begin{enumerate}
-% \item the watermark text is always in gray;
 % \item the watermark font size cannot exceed a maximum value that is
 %   about 5$\;$cm.
 % \item the watermark scale can be any value. Using the default, the
@@ -188,13 +186,12 @@
 % \end{enumerate}
 %
 % \DescribeMacro{\SetWatermarkAngle}
-% \DescribeMacro{\SetWatermarkLightness}
+% \DescribeMacro{\SetWatermarkColor}
 % \DescribeMacro{\SetWatermarkFontSize}
 % \DescribeMacro{\SetWatermarkScale}
 % \DescribeMacro{\SetWatermarkText}
 % Table~\ref{tbl:commands} illustrates the commands used to modify the
-% package behaviour. Note that there is exactly one command per
-% function and that every command takes a single argument.
+% package behaviour. 
 %
 % \begin{table}[ht]
 %   \begin{center}
@@ -206,6 +203,8 @@
 %       \hline\hline
 %       Angle at which the watermark text is drawn &
 %       |\SetWatermarkAngle{|\meta{real}|}|\\
+%       Color of the watermark &
+%       |\SetWatermarkColor|$\;$\meta{col\_spec}\\
 %       Lightness of the watermark text (1=white, 0=black) &
 %       |\SetWatermarkLightness{|\meta{real}|}|\\
 %       Font size of the watermark text &
@@ -220,6 +219,21 @@
 %   \caption{Commands affecting the package behavior.}
 %   \label{tbl:commands}
 % \end{table}
+%
+% Note that \meta{col\_spec} can be either a named color such as
+% |{|\meta{name}|}| or a color specification such as
+% |[|\meta{model}|]{|\meta{specs}|}|. For instance
+% \begin{quote}
+%  |\SetWatermarkColor{red}|\\
+%  |\SetWatermarkColor[rgb]{0,1,0}|
+% \end{quote}
+% \DescribeMacro{\SetWatermarkLightness}
+% are both valid colors. Also note that the command
+% \begin{quote}
+%   |\SetWatermarkLightness{|\meta{real}|}|
+% \end{quote}
+% is provided as a conveniency (and for backward compatibility) to select
+% gray watermarks (1=white, 0=black).
 %
 % Observe that the |\SetWatermarkFontSize| command takes a length
 % rather than a simple number. Also observe that multiline textual
