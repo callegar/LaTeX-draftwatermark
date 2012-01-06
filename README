@@ -9,8 +9,8 @@ compatible with pdfLaTeX. The package depends on package "everypage"
 by the same author.
 
 
-The "draftwatermark" package is copyright 2006 by Sergio Callegari
-<sergio.callegari@gmail.com>
+The "draftwatermark" package is copyright 2006, 2012 by Sergio
+Callegari <sergio.callegari@gmail.com>
 
 It comprises this README file, as well as files
 draftwatermark.dtx
