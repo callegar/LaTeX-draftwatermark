@@ -126,7 +126,10 @@
 % \section{User interface}
 % When loaded, \Lpack{draftwatermark} sets up a number of defaults
 % (detailed later and modifiable by specific commands) and immediately
-% becomes active. If loaded as
+% becomes active.
+% 
+% \subsection{Package options}
+% If loaded as
 % \begin{quote}
 % |\usepackage{draftwatermark}|
 % \end{quote}
@@ -137,6 +140,19 @@
 % \end{quote}
 % the package sets up itself to put a background text only on the
 % first page.
+%
+% If loaded as
+% \begin{quote}
+% |\usepackage[nostamp]{draftwatermark}|
+% \end{quote}
+% the package does not print any watermark even if it is loaded and
+% configured to do so. This is handy for quickly removing the ``draft''
+% status from a document. Option \Lopt{final} is a synonym for
+% \Lopt{nostamp}. This can be handy because \Lopt{final} is a commonly
+% used global option that can be simultaneously obeyed by many packages
+% (e.g., to include figures, remove marks, and so on). The option
+% \Lopt{stamp} can be used to override a global \Lopt{final} option and to
+% recover the watermarking.
 %
 % \subsection{Default behavior and commands to modify it}
 % The package defaults are illustrated in table~\ref{tbl:defaults}.
