@@ -40,7 +40,7 @@
 %
 % \fi
 %
-% \CheckSum{107}
+% \CheckSum{125}
 %
 % \def\filename{draftwatermark.dtx}
 % \def\fileversion{1.0}
@@ -349,7 +349,8 @@ fill in some space. Also this text is here just to fill in some space.
 %    \end{macrocode}
 % 
 % \begin{macro}{\sc@wm@angle}
-% \begin{macro}{\sc@wm@lightness}
+% \begin{macro}{\sc@wm@colormodel}
+% \begin{macro}{\sc@wm@colorspecs}
 % \begin{macro}{\sc@wm@scale}
 % \begin{macro}{\sc@wm@fontsize}
 % \begin{macro}{\sc@wm@text}
@@ -358,7 +359,8 @@ fill in some space. Also this text is here just to fill in some space.
 \newlength\sc@wm@fontsize
 %% defaults
 \def\sc@wm@angle{45}
-\def\sc@wm@lightness{0.8}
+\def\sc@wm@colormodel{[gray]}
+\def\sc@wm@colorspecs{0.8}
 \def\sc@wm@scale{1}
 \setlength\sc@wm@fontsize{5cm}
 \def\sc@wm@text{DRAFT}
@@ -368,8 +370,10 @@ fill in some space. Also this text is here just to fill in some space.
 % \end{macro}
 % \end{macro}
 % \end{macro}
+% \end{macro}
 %
 % \begin{macro}{\SetWatermarkAngle}
+% \begin{macro}{\SetWatermarkColor}
 % \begin{macro}{\SetWatermarkLightness}
 % \begin{macro}{\SetWatermarkFontSize}
 % \begin{macro}{\SetWatermarkScale}
@@ -378,8 +382,13 @@ fill in some space. Also this text is here just to fill in some space.
 %    \begin{macrocode}
 \newcommand\SetWatermarkAngle[1]{%
   \def\sc@wm@angle{#1}}
+\newcommand\SetWatermarkColor{}
+\def\SetWatermarkColor#1#{\sc@setWatermarkColor{#1}}
+\def\sc@setWatermarkColor#1#2{%
+  \def\sc@wm@colormodel{#1}%
+  \def\sc@wm@colorspecs{#2}}
 \newcommand\SetWatermarkLightness[1]{%
-  \def\sc@wm@lightness{#1}}
+  \SetWatermarkColor[gray]{#1}}
 \newcommand\SetWatermarkFontSize[1]{%
   \setlength\sc@wm@fontsize{#1}}
 \newcommand\SetWatermarkScale[1]{%
@@ -392,7 +401,8 @@ fill in some space. Also this text is here just to fill in some space.
 % \end{macro}
 % \end{macro}
 % \end{macro}
-%
+% \end{macro}
+% 
 %\begin{macro}{\sc@watermark}
 % The command to draw the watermark\ldots This assumes an origin in
 % the left top corner of the page (and also assumes that |\paperwidth|
@@ -408,10 +418,11 @@ fill in some space. Also this text is here just to fill in some space.
   \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
     \makebox(0,0){\rotatebox{\sc@wm@angle}{%
         \scalebox{\sc@wm@scale}{%
-        \textcolor[gray]{\sc@wm@lightness}{
-          \fontsize{\sc@wm@fontsize}{1.2\sc@wm@fontsize}
-          \selectfont
-          \sc@wm@text}}}}}}
+          \expandafter\expandafter\expandafter\textcolor
+          \expandafter\sc@wm@colormodel\expandafter{\sc@wm@colorspecs}{%
+            \fontsize{\sc@wm@fontsize}{1.2\sc@wm@fontsize}
+            \selectfont
+            \sc@wm@text}}}}}}
 %    \end{macrocode}
 % \end{macro}
 %
