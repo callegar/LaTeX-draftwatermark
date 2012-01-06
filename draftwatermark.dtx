@@ -22,6 +22,9 @@
 %<*driver>
 \documentclass{ltxdoc}
 \usepackage{mathptmx, helvet, courier}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
 \EnableCrossrefs
 \DoNotIndex{\def,\gdef,\let,\NeedsTeXFormat,\newcommand}
 \DoNotIndex{\ProvidesPackage,\endinput}
@@ -146,7 +149,7 @@
 %       \MakeShortVerb{\|}       
 %       Behavior & Default value\\
 %       \hline\hline
-%       Angle at which the watermark text is drawn & 45°\\
+%       Angle at which the watermark text is drawn & 45Â°\\
 %       Lightness of the watermark text (1=white, 0=black) & 0.8\\
 %       Font size of the watermark text & 5$\;$cm\\
 %       Scaling of the watermark text & 1.2\\
@@ -164,7 +167,7 @@
 % \item the watermark font size cannot exceed a maximum value that is
 %   about 5$\;$cm.
 % \item the watermark scale can be any value. Using the default, the
-% word ``DRAFT'' at 45° uses up all the space on an A4 paper. To have
+% word ``DRAFT'' at 45Â° uses up all the space on an A4 paper. To have
 % a good looking large text, it is better to enlarge the font size as
 % much as possibile, rather than using a small font size and pumping
 % up the scale.
