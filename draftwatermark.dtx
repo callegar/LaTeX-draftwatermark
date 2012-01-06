@@ -40,7 +40,7 @@
 %
 % \fi
 %
-% \CheckSum{96}
+% \CheckSum{107}
 %
 % \def\filename{draftwatermark.dtx}
 % \def\fileversion{1.0}
@@ -111,10 +111,8 @@
 %   EYES ONLY'', etc.).
 % \item No possibility to put the watermark at the bottom of the page.
 % Watermarks are placed at the center of the page.
-% \item No possibility to selectively activate or disactivate
-% operation depending on the global draft and final options.
-% No possibility to watermark only the first \emph{two} pages of a
-% document. However, it is possible to watermark only the first.
+% \item No possibility to watermark only the first \emph{two} pages of a
+%   document. However, it is possible to watermark only the first.
 % \end{itemize}
 % Other features available as options in \Lpack{draftcopy} (e.g., the
 % possibility of time-stamping the watermark text) can be obtained
@@ -126,7 +124,10 @@
 % \section{User interface}
 % When loaded, \Lpack{draftwatermark} sets up a number of defaults
 % (detailed later and modifiable by specific commands) and immediately
-% becomes active. If loaded as
+% becomes active.
+% 
+% \subsection{Package options}
+% If loaded as
 % \begin{quote}
 % |\usepackage{draftwatermark}|
 % \end{quote}
@@ -137,6 +138,19 @@
 % \end{quote}
 % the package sets up itself to put a background text only on the
 % first page.
+%
+% If loaded as
+% \begin{quote}
+% |\usepackage[nostamp]{draftwatermark}|
+% \end{quote}
+% the package does not print any watermark even if it is loaded and
+% configured to do so. This is handy for quickly removing the ``draft''
+% status from a document. Option \Lopt{final} is a synonym for
+% \Lopt{nostamp}. This can be handy because \Lopt{final} is a commonly
+% used global option that can be simultaneously obeyed by many packages
+% (e.g., to include figures, remove marks, and so on). The option
+% \Lopt{stamp} can be used to override a global \Lopt{final} option and to
+% recover the watermarking.
 %
 % \subsection{Default behavior and commands to modify it}
 % The package defaults are illustrated in table~\ref{tbl:defaults}.
@@ -313,13 +327,27 @@ fill in some space. Also this text is here just to fill in some space.
 %    \end{macrocode}
 % \end{macro}
 % 
+% \begin{macro}{\if@sc@wm@stamp}
+%   Set up the conditional to store whether to stamp the watermark or not.
+%    \begin{macrocode}
+\newif\if@sc@wm@stamp
+\@sc@wm@stamptrue
+%    \end{macrocode}
+% \end{macro}
+% 
 % Declare the package options.
 %    \begin{macrocode}
 \DeclareOption{firstpage}{%
   \@sc@wm@firsttrue}
+\DeclareOption{nostamp}{%
+  \@sc@wm@stampfalse}
+\DeclareOption{final}{%
+  \@sc@wm@stampfalse}
+\DeclareOption{stamp}{%
+  \@sc@wm@stamptrue}
 \ProcessOptions
 %    \end{macrocode}
-%
+% 
 % \begin{macro}{\sc@wm@angle}
 % \begin{macro}{\sc@wm@lightness}
 % \begin{macro}{\sc@wm@scale}
@@ -396,12 +424,14 @@ fill in some space. Also this text is here just to fill in some space.
 % corner of the page. 
 %    \begin{macrocode}
 \newcommand\sc@wm@print[1]{%
+  \if@sc@wm@stamp
   \setbox\@tempboxa\vbox to \z@{%
     \vskip -1in \moveleft 1in \vbox{%
       \hbox to \z@{%
         #1\hss}}\vss}
   \dp\@tempboxa\z@
-  \box\@tempboxa}
+  \box\@tempboxa
+  \fi}
 %    \end{macrocode}
 % \end{macro}
 %
