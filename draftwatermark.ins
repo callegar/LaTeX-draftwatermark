@@ -25,15 +25,13 @@
 %% --------------- start of docstrip commands ------------------
 %%
 \input docstrip.tex
+
+\keepsilent
+%\showprogress
+
 \preamble
-This is file `draftwatermark.sty',
-generated with the docstrip utility.
 
-The original source files were:
-
-draftwatermark.dtx
-
- IMPORTANT NOTICE:
+  IMPORTANT NOTICE:
 
 Copyright 2006
 Sergio Callegari <sergio.callegari@gmail.com>
@@ -59,10 +57,18 @@ in the same archive or directory.)
 
 \endpreamble
 
-\keepsilent
 \Msg{*** Generating the LaTeX2e package files ***}
-\generate{\file{draftwatermark.sty}{\from{draftwatermark.dtx}{}}}
-\ReportTotals
+\generate{\file{draftwatermark.sty}{%
+        \from{draftwatermark.dtx}{draftwatermark}}}
+
+\preamble
+\endpreamble
+
+\Msg{*** Generating the example files ***}
+\generate{\file{test_draftwatermark.tex}{%
+        \from{draftwatermark.dtx}{samplecode}}}
+
+%\ReportTotals
 
 \Msg{***********************************************************}
 \Msg{*}

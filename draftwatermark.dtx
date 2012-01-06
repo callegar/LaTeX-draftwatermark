@@ -225,12 +225,69 @@
 % Obviously, the final compatibility with the different output drivers
 % depends on the actual code that is placed in the textual watermark.
 % 
+% \section{Example}
+% 
+% As an example, consider the following code snippet:
+% \iffalse
+%<*samplecode>
+% \fi
+%    \begin{macrocode}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{draftwatermark}
+\title{Sample document for the draftwatermark package}
+
+\begin{document}
+\maketitle
+
+\section{One}
+This text is here just to fill in some space. This text is here just to
+fill in some space. This text is here just to fill in some space. This
+text is here just to fill in some space. This text is here just to fill in
+some space. This text is here just to fill in some space. This text is
+here just to fill in some space. This text is here just to fill in some
+space. This text is here just to fill in some space. This text is here
+just to fill in some space. This text is here just to fill in some
+space. This text is here just to fill in some space. This text is here
+just to fill in some space. This text is here just to fill in some
+space. This text is here just to fill in some space. This text is here
+just to fill in some space. This text is here just to fill in some
+space. This text is here just to fill in some space. This text is here
+just to fill in some space. This text is here just to fill in some
+space. This text is here just to fill in some space.
+
+\section{Two}
+
+Also this text is here just to fill in some space. Also this text is here
+just to fill in some space. Also this text is here just to fill in some
+space. Also this text is here just to fill in some space. Also this text
+is here just to fill in some space. Also this text is here just to fill in
+some space. Also this text is here just to fill in some space. Also this
+text is here just to fill in some space. Also this text is here just to
+fill in some space. Also this text is here just to fill in some
+space. Also this text is here just to fill in some space. Also this text
+is here just to fill in some space. Also this text is here just to fill in
+some space. Also this text is here just to fill in some space. Also this
+text is here just to fill in some space. Also this text is here just to
+fill in some space. Also this text is here just to fill in some space.
+
+\end{document}
+%    \end{macrocode}
+% \iffalse
+%</samplecode>
+% \fi
+%
 % \StopEventually {}
 % 
 % \section{Implementation}
 %
 % Announce the name and version of the package, which requires
 % \LaTeXe.
+% \iffalse
+%<*draftwatermark>
+% \fi
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{draftwatermark}%
@@ -358,6 +415,9 @@
 \fi
 \endinput
 %    \end{macrocode}
+% \iffalse
+%</draftwatermark>
+% \fi
 %
 % \Finale
 % \PrintIndex
