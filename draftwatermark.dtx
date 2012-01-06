@@ -40,7 +40,7 @@
 %
 % \fi
 %
-% \CheckSum{96}
+% \CheckSum{107}
 %
 % \def\filename{draftwatermark.dtx}
 % \def\fileversion{1.0}
@@ -313,13 +313,27 @@ fill in some space. Also this text is here just to fill in some space.
 %    \end{macrocode}
 % \end{macro}
 % 
+% \begin{macro}{\if@sc@wm@stamp}
+%   Set up the conditional to store whether to stamp the watermark or not.
+%    \begin{macrocode}
+\newif\if@sc@wm@stamp
+\@sc@wm@stamptrue
+%    \end{macrocode}
+% \end{macro}
+% 
 % Declare the package options.
 %    \begin{macrocode}
 \DeclareOption{firstpage}{%
   \@sc@wm@firsttrue}
+\DeclareOption{nostamp}{%
+  \@sc@wm@stampfalse}
+\DeclareOption{final}{%
+  \@sc@wm@stampfalse}
+\DeclareOption{stamp}{%
+  \@sc@wm@stamptrue}
 \ProcessOptions
 %    \end{macrocode}
-%
+% 
 % \begin{macro}{\sc@wm@angle}
 % \begin{macro}{\sc@wm@lightness}
 % \begin{macro}{\sc@wm@scale}
@@ -396,12 +410,14 @@ fill in some space. Also this text is here just to fill in some space.
 % corner of the page. 
 %    \begin{macrocode}
 \newcommand\sc@wm@print[1]{%
+  \if@sc@wm@stamp
   \setbox\@tempboxa\vbox to \z@{%
     \vskip -1in \moveleft 1in \vbox{%
       \hbox to \z@{%
         #1\hss}}\vss}
   \dp\@tempboxa\z@
-  \box\@tempboxa}
+  \box\@tempboxa
+  \fi}
 %    \end{macrocode}
 % \end{macro}
 %
