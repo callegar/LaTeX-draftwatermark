@@ -54,12 +54,12 @@
 %
 % \fi
 %
-% \CheckSum{125}
+% \CheckSum{143}
 %
 % \def\filename{draftwatermark.dtx}
-% \def\fileversion{1.1}
-% \def\filedate{2012/01/06}
-% \def\docdate{2012/01/06}
+% \def\fileversion{1.2}
+% \def\filedate{2015/02/19}
+% \def\docdate{2015/02/19}
 %
 % \newcommand*{\Lpack}[1]{\textsf {#1}}           ^^A typeset a package
 % \newcommand*{\Lopt}[1]{\textsf {#1}}            ^^A typeset an option
@@ -122,8 +122,6 @@
 %   text one happens to prefer, including things that have nothing to
 %   do with the word ``DRAFT'' (e.g., ``CONFIDENTIAL'', ``FOR YOUR
 %   EYES ONLY'', etc.).
-% \item No possibility to put the watermark at the bottom of the page.
-% Watermarks are placed at the center of the page.
 % \item No possibility to watermark only the first \emph{two} pages of a
 %   document. However, it is possible to watermark only the first.
 % \end{itemize}
@@ -179,7 +177,9 @@
 %       Angle at which the watermark text is drawn & 45°\\
 %       Color of the watermark text & gray 80\%\\       
 %       Font size of the watermark text & 5$\;$cm\\
+%       Horizontal center of watermark text & .5pagewidth\\
 %       Scaling of the watermark text & 1.2\\
+%       Vertical center of watermark text & .5pageheight\\
 %       Watermark text & DRAFT\\
 %       \hline
 %     \end{tabular}
@@ -197,12 +197,17 @@
 % a good looking large text, it is better to enlarge the font size as
 % much as possibile, rather than using a small font size and pumping
 % up the scale.
+% \item the watermark horizontal and vertical centers define the
+% center of the text. Origin is upper left corner of page and values
+% are positive.
 % \end{enumerate}
 %
 % \DescribeMacro{\SetWatermarkAngle}
 % \DescribeMacro{\SetWatermarkColor}
 % \DescribeMacro{\SetWatermarkFontSize}
 % \DescribeMacro{\SetWatermarkScale}
+% \DescribeMacro{\SetWatermarkHorCenter}
+% \DescribeMacro{\SetWatermarkVerCenter}
 % \DescribeMacro{\SetWatermarkText}
 % Table~\ref{tbl:commands} illustrates the commands used to modify the
 % package behaviour. 
@@ -225,6 +230,10 @@
 %       |\SetWatermarkFontSize{|\meta{length}|}|\\
 %       Scaling of the watermark text &
 %       |\SetWatermarkScale{|\meta{real}|}|\\
+%       Horizontal center of watermark text &
+%       |\SetWatermarkHorCenter{|\meta{length}|}|\\
+%       Vertical center of watermark text &
+%       |\SetWatermarkVerCenter{|\meta{length}|}|\\
 %       Watermark text &
 %       |\SetWatermarkText{|\meta{text}|}|\\
 %       \hline
@@ -249,8 +258,10 @@
 % is provided as a conveniency (and for backward compatibility) to select
 % gray watermarks (1=white, 0=black).
 %
-% Observe that the |\SetWatermarkFontSize| command takes a length
-% rather than a simple number. Also observe that multiline textual
+% Observe that the |\SetWatermarkFontSize|,
+% |\SetWatermarkHorCenter| and |\SetWatermarkVerCenter|
+% commands take a length rather than a simple number.
+% Also observe that multiline textual
 % watermarks can easily be obtained by the |\shortstack| command and
 % that there is the possibility of using an image rather than a text
 % (e.g., a ``caution, work in progress'' sign, etc.). 
@@ -334,6 +345,7 @@ fill in some space. Also this text is here just to fill in some space.
 % \item[1.0 - 2006/06/30] Initial version.
 % \item[1.1 - 2012/01/06] Add support for colored watermarks; Options to
 %   disable watermarking; Many small fixes in the documentation.
+% \item[1.2 - 2015/02/19] Add support for watermark position.
 % \end{description}
 %
 % \StopEventually {}
@@ -348,7 +360,7 @@ fill in some space. Also this text is here just to fill in some space.
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{draftwatermark}%
-  [2012/01/06 1.1 Put a gray textual watermark on document pages]
+  [2015/02/19 1.2 Put a gray textual watermark on document pages]
 %    \end{macrocode}
 %
 % Require the needed packages. Note that if these are pre-loaded
@@ -395,19 +407,27 @@ fill in some space. Also this text is here just to fill in some space.
 % \begin{macro}{\sc@wm@colormodel}
 % \begin{macro}{\sc@wm@colorspecs}
 % \begin{macro}{\sc@wm@scale}
+% \begin{macro}{\sc@wm@hcenter}
+% \begin{macro}{\sc@wm@vcenter}
 % \begin{macro}{\sc@wm@fontsize}
 % \begin{macro}{\sc@wm@text}
 % Set up the package defaults.
 %    \begin{macrocode}
+\newlength\sc@wm@hcenter
+\newlength\sc@wm@vcenter
 \newlength\sc@wm@fontsize
 %% defaults
 \def\sc@wm@angle{45}
 \def\sc@wm@colormodel{[gray]}
 \def\sc@wm@colorspecs{0.8}
 \def\sc@wm@scale{1}
+\setlength\sc@wm@hcenter{.5\paperwidth}
+\setlength\sc@wm@vcenter{.5\paperheight}
 \setlength\sc@wm@fontsize{5cm}
 \def\sc@wm@text{DRAFT}
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 % \end{macro}
 % \end{macro}
@@ -420,6 +440,8 @@ fill in some space. Also this text is here just to fill in some space.
 % \begin{macro}{\SetWatermarkLightness}
 % \begin{macro}{\SetWatermarkFontSize}
 % \begin{macro}{\SetWatermarkScale}
+% \begin{macro}{\SetWatermarkHorCenter}
+% \begin{macro}{\SetWatermarkVerCenter}
 % \begin{macro}{\SetWatermarkText}
 % Set up the commands to modify the behavior.
 %    \begin{macrocode}
@@ -436,9 +458,15 @@ fill in some space. Also this text is here just to fill in some space.
   \setlength\sc@wm@fontsize{#1}}
 \newcommand\SetWatermarkScale[1]{%
   \def\sc@wm@scale{#1}}
+\newcommand\SetWatermarkHorCenter[1]{%
+  \setlength\sc@wm@hcenter{#1}}
+\newcommand\SetWatermarkVerCenter[1]{%
+  \setlength\sc@wm@vcenter{#1}}
 \newcommand\SetWatermarkText[1]{%
   \def\sc@wm@text{#1}}
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 % \end{macro}
 % \end{macro}
@@ -449,15 +477,16 @@ fill in some space. Also this text is here just to fill in some space.
 %\begin{macro}{\sc@watermark}
 % The command to draw the watermark\ldots This assumes an origin in
 % the left top corner of the page (and also assumes that |\paperwidth|
-% and |\paperheight| are set correctly. There is no need to worry
+% and |\paperheight| are set correctly if accepting the defaults).
+% There is no need to worry
 % about the horizontal and vertical size that is taken by the
 % watermark object. Note that this is typically a text, but
 % |\sc@wm@text| may well contain other material, e.g.\@ an
 % |\includegraphics| directive.
 %    \begin{macrocode}
 \newcommand\sc@watermark{%
-  \setlength{\@tempdimb}{.5\paperwidth}%
-  \setlength{\@tempdimc}{-.5\paperheight}%
+  \setlength{\@tempdimb}{\sc@wm@hcenter}%
+  \setlength{\@tempdimc}{-\sc@wm@vcenter}%
   \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
     \makebox(0,0){\rotatebox{\sc@wm@angle}{%
         \scalebox{\sc@wm@scale}{%
