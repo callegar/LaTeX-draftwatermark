@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PKGNAME=draftwatermark
-PKGVERS=1-1
+PKGVERS=1-2
 PKGCNT=("draftwatermark.dtx" "draftwatermark.ins" "README")
 
 mkdir -p buildpkg/"$PKGNAME"_"$PKGVERS"
