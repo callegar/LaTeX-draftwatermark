@@ -2,7 +2,14 @@
 
 PKGNAME=draftwatermark
 PKGVERS=1-2
-PKGCNT=("draftwatermark.dtx" "draftwatermark.ins" "README")
+PKGCNT=("draftwatermark.dtx" "draftwatermark.ins" "README" "draftwatermark.pdf")
+
+# Process documentation
+pdflatex draftwatermark.dtx
+makeindex -s gind.ist draftwatermark
+#makeindex -s gglo.ist -o draftwatermark.gls draftwatermark.glo
+pdflatex draftwatermark.dtx
+pdflatex draftwatermark.dtx
 
 mkdir -p buildpkg/"$PKGNAME"_"$PKGVERS"
 cp "${PKGCNT[@]}" buildpkg/"$PKGNAME"_"$PKGVERS"
