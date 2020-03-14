@@ -33,7 +33,7 @@
 
   IMPORTANT NOTICE:
 
-Copyright 2006
+Copyright 2006, 2020
 Sergio Callegari <sergio.callegari@gmail.com>
 
 ---------------------------------------------
@@ -65,8 +65,14 @@ in the same archive or directory.)
 \endpreamble
 
 \Msg{*** Generating the example files ***}
-\generate{\file{test_draftwatermark.tex}{%
-        \from{draftwatermark.dtx}{samplecode}}}
+\generate{\file{test_draftwatermark1.tex}{%
+        \from{draftwatermark.dtx}{samplecode-modern}}}
+\generate{\file{test_draftwatermark2.tex}{%
+        \from{draftwatermark.dtx}{samplecode-legacy}}}
+\generate{\file{test_draftwatermark3.tex}{%
+        \from{draftwatermark.dtx}{samplecode-anchor}}}
+\generate{\file{test_draftwatermark4.tex}{%
+        \from{draftwatermark.dtx}{samplecode-custom}}}        
 
 %\ReportTotals
 
@@ -82,9 +88,9 @@ in the same archive or directory.)
 \Msg{* through LaTeX (or maybe pdfLaTeX).}
 \Msg{* Process draftwatermark.idx file by:}
 \Msg{* \space\space\space\space makeindex -s gind.ist draftwatermark}
-\Msg{* Process draftwatermark.glo file by:}
-\Msg{* \space\space\space\space makeindex -s gglo.ist -o draftwatermark.gls
-       draftwatermark.glo}
+%\Msg{* Process draftwatermark.glo file by:}
+%\Msg{* \space\space\space\space makeindex -s gglo.ist -o draftwatermark.gls
+%       draftwatermark.glo}
 \Msg{* Re run through LaTeX the draftwatermark.dtx file as necessary}
 \Msg{*}
 \Msg{***********************************************************}

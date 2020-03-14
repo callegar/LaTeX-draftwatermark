@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 2006, 2012
+% Copyright 2006-2020
 % Sergio Callegari <sergio.callegari@gmail.com>
 %
 % ---------------------------------------------
@@ -20,31 +20,47 @@
 % included in the package.
 %
 %<*driver>
-\documentclass{ltxdoc}
-\usepackage{mathptmx, helvet, courier}
+\documentclass[a4paper]{ltxdoc}
+\usepackage{newtxtext}
+\usepackage{hologo}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
 \usepackage{url}
 \EnableCrossrefs
-\DoNotIndex{\def,\gdef,\let,\NeedsTeXFormat,\newcommand}
-\DoNotIndex{\ProvidesPackage,\endinput}
-\DoNotIndex{\box,\dp,\fontsize,\ifx,\else,\fi}
-\DoNotIndex{\hbox,\hss,\makebox,\moveleft,\newif,\newlength}
-\DoNotIndex{\ProcessOptions,\vbox,\vss,\z@}
-\DoNotIndex{\AddEverypageHook,\AddThispageHook}
-\DoNotIndex{\@tempboxa,\@tempdimb,\@tempdimc}
-\DoNotIndex{\begin}
-\DoNotIndex{\DeclareOption,\documentclass}
-\DoNotIndex{\end,\expandafter}
-\DoNotIndex{\maketitle}
-\DoNotIndex{\paperheight,\paperwidth,\put}
-\DoNotIndex{\RequirePackage,\rotatebox}
-\DoNotIndex{\scalebox,\section,\selectfont,\setbox,\setlength}
-\DoNotIndex{\strip@pt}
-\DoNotIndex{\textcolor,\title}
-\DoNotIndex{\usepackage}
-\DoNotIndex{\vskip}   
+
+\setcounter{IndexColumns}{2}
+\setlength{\IndexMin}{3cm}
+
+\DoNotIndex{\begin, \end, \begingroup, \endgroup}
+\DoNotIndex{\csname, \endcsname}
+\DoNotIndex{\if, \else, \fi}
+\DoNotIndex{\ifx, \fi}
+\DoNotIndex{\ifodd, \fi}
+\DoNotIndex{\@car, \@empty, \@ifnextchar, \@nil, \@onelevel@sanitize,
+  \@tempboxa, \@tempdima, \@tempdimb, \@tfor}
+\DoNotIndex{\AddEverypageHook, \AddThispageHook, \addtolength, \author}
+\DoNotIndex{\bfseries, \box}
+\DoNotIndex{\color}
+\DoNotIndex{\DeclareBoolOption, \DeclareComplementaryOption,
+  \DeclareStringOption, \def, \define@key, \dimexpr, \DisableKeyvalOption,
+  \do, \documentclass, \dp}
+\DoNotIndex{\expandafter}
+\DoNotIndex{\fbox, \fontsize}
+\DoNotIndex{\hbox, \hspace, \hss, \ht}
+\DoNotIndex{\let, \lipsum}
+\DoNotIndex{\maketitle, \MyWM}
+\DoNotIndex{\newcommand, \newsavebox, \NeedsTeXFormat}
+\DoNotIndex{\PackageError, \paperheight, \paperwidth,
+  \ProcessKeyvalOptions, \ProvidesPackage}
+\DoNotIndex{\relax, \RequirePackage, \rotatebox}
+\DoNotIndex{\savebox, \sbox, \scalebox, \section, \selectfont, \setkeys,
+  \setlength, \sffamily}
+\DoNotIndex{\thepage, \title}
+\DoNotIndex{\usebox, \usepackage}
+\DoNotIndex{\vbox, \vspace, \vss}
+\DoNotIndex{\wd, \wmbox}
+  
 \CodelineIndex
 %\RecordChanges
 \begin{document}
@@ -54,15 +70,15 @@
 %
 % \fi
 %
-% \CheckSum{143}
+% \CheckSum{288}
 %
 % \def\filename{draftwatermark.dtx}
-% \def\fileversion{1.2}
-% \def\filedate{2015/02/19}
-% \def\docdate{2015/02/19}
+% \def\fileversion{2.0}
+% \def\filedate{2020/03/14}
+% \def\docdate{2020/03/14}
 %
 % \newcommand*{\Lpack}[1]{\textsf {#1}}           ^^A typeset a package
-% \newcommand*{\Lopt}[1]{\textsf {#1}}            ^^A typeset an option
+% \newcommand*{\Lopt}[1]{\texttt {#1}}            ^^A typeset an option
 % \newcommand*{\file}[1]{\texttt {#1}}            ^^A typeset a file
 % \newcommand*{\Lcount}[1]{\textsl {\small#1}}    ^^A typeset a counter
 % \newcommand*{\pstyle}[1]{\textsl {#1}}          ^^A typeset a pagestyle
@@ -82,270 +98,567 @@
 %
 % \begin{abstract}
 %   The \Lpack{draftwatermark} package extends \LaTeX\ providing a means
-%   to add a textual (usually light gray, but possibly colored) watermark
-%   on every page or on the first page of a document. Typical usage may
-%   consist in writing words such as \emph{DRAFT} or \emph{CONFIDENTIAL}
-%   across document pages. The package may remind in some sense
-%   \Lpack{draftcopy} by Dr.~Juergen Vollmer, but its implementation is
-%   much lighter (as the reduced code footprint shows) and does not rely
-%   on postscript specials, making the package fully compatible with
-%   pdf\LaTeX. The package depends on \Lpack{everypage} by the same
-%   author.
+%   to add a watermark (typically textual and light gray, but possibly
+%   more sophisticated) on the pages of a document (either on every page,
+%   on the first page, or on selected pages). Typical usage may consist in
+%   writing words such as ``DRAFT'' or ``CONFIDENTIAL'' across the
+%   pages. The package may remind in some sense \Lpack{draftcopy} by
+%   Dr.~Juergen Vollmer, but its implementation is lighter (as the reduced
+%   code footprint shows) and does not rely on postscript specials, making
+%   the package fully compatible with \hologo{pdfLaTeX}, \hologo{XeLaTeX}
+%   and \hologo{LuaLaTeX}. The \Lpack{draftwatermark} package depends on
+%   \Lpack{everypage} by the same author. Its feature set is somehow
+%   restricted because the emphasis is on the simplicity of the
+%   interface. For complex layouts, \Lpack{scrlayer.sty} from the
+%   \emph{KOMA script} bundle may represent a valuable alternative.
 % \end{abstract}
 % 
 % \section{Introduction}
 % 
-% This program extends \LaTeX\ providing a means to add a textual,
-% (usually light gray, but possibly colored) watermark on every page or on
-% the first page of a document. Typical usage may consist in writing words
-% such as \emph{DRAFT} or \emph{CONFIDENTIAL} across document pages. The
-% package may remind in some sense \Lpack{draftcopy} by Dr.~Juergen
-% Vollmer, but its implementation differs by a few points:
+% This package extends \LaTeX\ providing a means to add a textual, usually
+% light gray (but possibly colored) watermark on every page, the first
+% page, or selected pages of a document. Typical usage may consist in
+% writing words such as ``DRAFT'' or ``CONFIDENTIAL'' across document
+% pages.
+%
+% The package may remind in some sense \Lpack{draftcopy} by Dr.~Juergen
+% Vollmer, but its implementation differs in a few points:
 % \begin{enumerate}
-% \item Code footprint is much, much smaller (about one order of
-%   magnitude smaller), although this does not mean much on modern
-%   computers.
-% \item There is no use of Postscript specials or other
-%   driver-dependent tricks, so the package should be compatible with
-%   any output driver and with pdf\LaTeX\ in particular. Lack of
-%   compatibility with pdf\LaTeX\ in these days is the biggest pitfall
-%   of \Lpack{draftcopy} and was the first motivation for writing
-%   \Lpack{draftwatermark}.
-% \item Reduced code footprint comes at some price with regards to
-% features. Many features of \Lpack{draftcopy} are not supported here,
-% most notably \Lpack{draftwatermark} has:
-% \begin{itemize}
-% \item No automatic selection of the watermark text to use, depending on
-%   the language, using translations of the word ``DRAFT''. However,
-%   this is no big loss, since there is a possibility to set the text
-%   to use explicitly, and this leaves the freedom to chose whatever
-%   text one happens to prefer, including things that have nothing to
-%   do with the word ``DRAFT'' (e.g., ``CONFIDENTIAL'', ``FOR YOUR
-%   EYES ONLY'', etc.).
-% \item No possibility to watermark only the first \emph{two} pages of a
-%   document. However, it is possible to watermark only the first.
-% \end{itemize}
-% Other features available as options in \Lpack{draftcopy} (e.g., the
-% possibility of time-stamping the watermark text) can be obtained
-% working on the watermark text itself.
-% \item Dependence on the \Lpack{everypage} package by the same
-% author.
+% \item Code footprint is smaller, although this does not mean much on
+%   modern computers.
+% \item There is no use of Postscript specials or other driver-dependent
+%   tricks, so the package should be compatible with any output driver and
+%   with \hologo{pdfLaTeX}, \hologo{XeLaTeX}, and \hologo{LuaLaTeX}\ in
+%   particular. Recently, compatibility with PDF generating engines is
+%   quite important and its lack in \Lpack{draftcopy} and was the first
+%   motivation for writing \Lpack{draftwatermark}.
+% \item Reduced code footprint comes at some price. Many features of
+%   \Lpack{draftcopy} are not supported here, most notably
+%   \Lpack{draftwatermark} has:
+%   \begin{itemize}
+%   \item No automatic selection of the watermark text to use, based on
+%     the language, relying on pre-stored translations of the word
+%     ``DRAFT''. This may be no big loss, since one is free to choose
+%     whatever text he/she happens to prefer.
+%   \item No automatic possibility to watermark only the first \emph{two}
+%     pages of a document. However, it is possible to automatically
+%     watermark only the first or to \emph{manually} stop the watermarking
+%     after the second page.
+%   \end{itemize}
+%   Note that some features available as options in \Lpack{draftcopy}
+%   (e.g., the possibility of time-stamping the watermark text) can be
+%   obtained working on the watermark text itself.
 % \end{enumerate}
+%
+% The emphasis of \Lpack{draftwatermark} is on the simplicity of its
+% interface. In many cases the package will do the right thing by just
+% loading it, without any further configuration. Such simplicity pairs
+% with some limitations. As an example, \Lpack{draftwatermark} is capable
+% of putting some text or an image on the background of the page, below
+% the document text, but not of \emph{stamping}, that is putting it in the
+% foreground, above the document text. Similarly, it is not well suited
+% for complex watermark layouts. As a further note, there may be
+% unexpected behaviors when \Lpack{draftwatermark} is used together with
+% other packages affecting the page building, e.g., with respect to the
+% stacking order of the objects on the page. For any complex layout, or
+% when the Z-ordering is important, the recommendation is to look at the
+% \Lpack{scrlayer} package in the \emph{KOMA script} bundle.
+%
+% For the actual page building \Lpack{draftwatermark} depends on the
+% \Lpack{everypage} package by the same author.
 % 
 % \section{User interface}
 % When loaded, \Lpack{draftwatermark} sets up a number of defaults
 % (detailed later and modifiable by specific commands) and immediately
 % becomes active.
-% 
-% \subsection{Package options}
+%
+% \subsection{Package options and configuration}
 % If loaded as
 % \begin{quote}
-% |\usepackage{draftwatermark}|
+%   |\usepackage{draftwatermark}|
 % \end{quote}
-% the package sets up itself to put a background text on every
-% page. Alternatively, if loaded as
+% the package sets up itself to put the a large, grayed background text
+% saying ``DRAFT'' at the center every page.
+%
+% This behavior can be modified by passing options to the package as in
 % \begin{quote}
-% |\usepackage[firstpage]{draftwatermark}|
+%   |\usepackage[<options>]{draftwatermark}|
 % \end{quote}
-% the package sets up itself to put a background text only on the
-% first page.
 %
-% If loaded as
-% \begin{quote}
-% |\usepackage[nostamp]{draftwatermark}|
-% \end{quote}
-% the package does not print any watermark even if it is loaded and
-% configured to do so. This is handy for quickly removing the ``draft''
-% status from a document. Option \Lopt{final} is a synonym for
-% \Lopt{nostamp}. This can be handy because \Lopt{final} is a commonly
-% used global option that can be simultaneously obeyed by many packages
-% (e.g., to include figures, remove marks, and so on). The option
-% \Lopt{stamp} can be used to override a global \Lopt{final} option and to
-% recover the watermarking.
+% \DescribeMacro{\DraftwatermarkOptions} 
+% The package behavior can also be dynamically changed \emph{after the
+% package is loaded} by the command |\DraftwatermarkOptions{<options>}|
+% that can be used anywhere in the document source. In either case,
+% |<options>| is a comma separated list of options, each given as a
+% |<key>| or as a |<key>=<value>| pair. Unless otherwise indicated, all
+% options that can be used at the loading of the package can also be given
+% via the |\DraftwatermarkOptions{<options>}| mechanism. In fact, the two
+% things are almost equivalent, with some cautionary
+% details. Specifically, the parsing of options by the |\usepackage|
+% command is a bit quirky, hence when specifying options with the
+% |<key>=<value>| syntax, some values that are accepted by
+% |\DraftwatermarkOptions| may cause issues when specifying options with
+% |\usepackage|.
+% \medskip
 %
-% \subsection{Default behavior and commands to modify it}
-% The package defaults are illustrated in table~\ref{tbl:defaults}.
+% The available options are:
+% \begin{itemize}
+% \item \verb!firstpageonly=true|false!\\
+%   If no value is provided, |true| is assumed. Default is |false|.\\
+%   Instructs \Lpack{draftwatermark} to only apply the watermark on the
+%   first page.\\
+%   This option cannot be used with |\DraftwatermarkOptions{<options>}|.
+% \item |firstpage| legacy alias of |firstpageonly|.
+% \item \verb!stamp=true|false!\\
+%   If no value is provided, |true| is assumed. Default is |true|.\\
+%   Instructs \Lpack{draftwatermark} to print the watermark.
+% \item |nostamp| legacy alias of |stamp=false|.
+% \item |final| legacy alias of |stamp=false|.
+% \item |angle=<real>|\\
+%   Default is |45|.\\
+%   Defines the angle, in degrees, at which the watermark text should be
+%   printed.
+% \item |scale=<real>|\\
+%   Default is |1|.\\
+%   Defines the scale at which the watermark text should be printed.
+% \item |fontsize=<length>|\\
+%   Default is |0.25\paperwidth|.\\
+%   Defines the font size for the watermark text. See
+%   Section~\ref{ssec:fontsize}.
+% \item |text=<token list>|\\
+%   Default is |DRAFT|.
+%   Defines the watermark text. See notes in Section~\ref{ssec:text}.
+% \item |hpos=<length>|\\
+%   Default is |0.5\paperwidth|.\\
+%   Defines the horizontal position of the watermark, based on its anchor
+%   point. See also the |pos| option.
+% \item |vpos=<length>|\\
+%   Default is |0.5\paperheight|.\\
+%   Defines the horizontal position of the watermark, based on its anchor
+%   point. See also the |pos| option.
+% \item |pos={<length>, <length>}|\\
+%   Defines at once the horizontal (first length) and vertical (second
+%   length) position of the watermark, based on its anchor point. See also
+%   the options |hpos| and |vpos|.
+% \item \verb!hanchor=l|c|r!\\
+%   Default is |c|.\\
+%   Defines the horizontal position of the watermark anchor
+%   point. Specifically, |l| stands for \emph{left}, |c| for \emph{center}
+%   and |r| for \emph{right}. See also the |anchor| option.
+% \item \verb!hanchor=t|m|b!\\
+%   Default is |c|.\\
+%   Defines the vertical position of the watermark anchor
+%   point. Specifically, |t| stands for \emph{top}, |m| for \emph{middle}
+%   and |b| for \emph{bottom}. See also the |anchor| option.
+% \item |anchor=<string>|\\
+%   Defines the anchor point for the watermark. The anchor point is placed
+%   at the page coordinates specified by the |hpos| and |vpos|
+%   options. The string used for the specification is made of the |l|,
+%   |c|, |r|, |t|, |m|, and |b| characters, whose meaning is as described
+%   for the |hanchor| and |vanchor| options. For instance, if the anchor
+%   specification is |lt|, then the top left corner of the watermark is
+%   placed at the position specified by the |hpos| and |vpos| options.
+% \item |colormodel=<color model>|\\
+%   Defaults to |gray|.\\
+%   Defines the color model for the specification of the color of the
+%   watermark text. Can be any color model supported by the \Lpack{color}
+%   package. Leaving it empty allows named colors to be specified. See
+%   also the |color| option.
+% \item |colorspec=<color specification>|\\
+%   Defaults to |0.8|.\\
+%   Defines a color specification for the watermark text. The
+%   specification is interpreted according to the color model. For
+%   instance if the model is |rgb|, then the specification can be a color
+%   triple. See also the |color| option.
+% \item |color=<full color specification>|\\
+%   Defines the color of the watermark text. The color specification may
+%   include an optional color model and must include a color
+%   specification, following the standard set by the \Lpack{color}
+%   package. For instance, some examples of valid specifications are
+%   |red|, or |{[rgb]{1, 0, 1}}|, or |{[gray]{0.5}}|.
+% \item |markcmd=<macro>|\\
+%   Default is |\DraftwatermarkStdMark|.\\
+%   Defines the command used to draw the actual watermark. See also
+%   Sect.~\ref{sec:markcmd}.
+% \end{itemize}
 %
-% \begin{table}[ht]
-%   \begin{center}
-%     \DeleteShortVerb{\|}
-%     \begin{tabular}{|p{0.6\linewidth}|c|}
-%       \hline
-%       \MakeShortVerb{\|}       
-%       Behavior & Default value\\
-%       \hline\hline
-%       Angle at which the watermark text is drawn & 45°\\
-%       Color of the watermark text & gray 80\%\\       
-%       Font size of the watermark text & 5$\;$cm\\
-%       Horizontal center of watermark text & .5paperwidth\\
-%       Scaling of the watermark text & 1.2\\
-%       Vertical center of watermark text & .5paperheight\\
-%       Watermark text & DRAFT\\
-%       \hline
-%     \end{tabular}
-%   \end{center}
-%   \caption{Package defaults.}
-%   \label{tbl:defaults}
-% \end{table}
+% \section{Some notes on the configuration options}
 %
-% With reference to the defaults, note that:
-% \begin{enumerate}
-% \item the watermark font size cannot exceed a maximum value that is
-%   about 5$\;$cm.
-% \item the watermark scale can be any value. Using the default, the
-% word ``DRAFT'' at 45° uses up all the space on an A4 paper. To have
-% a good looking large text, it is better to enlarge the font size as
-% much as possibile, rather than using a small font size and pumping
-% up the scale.
-% \item the watermark horizontal and vertical centers define the
-% center of the text. Origin is upper left corner of page and values
-% are positive.
-% \end{enumerate}
+% \subsection{The \Lopt{stamp} option and its companion configuration
+% directives}
 %
-% \DescribeMacro{\SetWatermarkAngle}
-% \DescribeMacro{\SetWatermarkColor}
-% \DescribeMacro{\SetWatermarkFontSize}
-% \DescribeMacro{\SetWatermarkScale}
-% \DescribeMacro{\SetWatermarkHorCenter}
-% \DescribeMacro{\SetWatermarkVerCenter}
-% \DescribeMacro{\SetWatermarkText}
-% Table~\ref{tbl:commands} illustrates the commands used to modify the
-% package behaviour. 
+% The |stamp|, |nostamp| and |final| options let one control whether the
+% watermark should actually be printed or not. They can be handy for
+% quickly removing the ``draft'' status from a document, without having to
+% alter the actual watermark setup. Option \Lopt{final} is a synonym for
+% \Lopt{nostamp}. Note that \Lopt{final} is a commonly used global
+% (class-level) option that can be simultaneously obeyed by multiple
+% packages. The option \Lopt{stamp} can be used to override a global
+% \Lopt{final} option and to recover the watermarking.
 %
-% \begin{table}[ht]
-%   \begin{center}
-%     \DeleteShortVerb{\|}
-%     \begin{tabular}{|p{0.4\linewidth}|l|}
-%       \hline
-%       \MakeShortVerb{\|}
-%       Behavior & Command affecting it\\
-%       \hline\hline
-%       Angle at which the watermark text is drawn &
-%       |\SetWatermarkAngle{|\meta{real}|}|\\
-%       Color of the watermark &
-%       |\SetWatermarkColor|$\;$\meta{col\_spec}\\
-%       Lightness of the watermark text (1=white, 0=black) &
-%       |\SetWatermarkLightness{|\meta{real}|}|\\
-%       Font size of the watermark text &
-%       |\SetWatermarkFontSize{|\meta{length}|}|\\
-%       Scaling of the watermark text &
-%       |\SetWatermarkScale{|\meta{real}|}|\\
-%       Horizontal center of watermark text &
-%       |\SetWatermarkHorCenter{|\meta{length}|}|\\
-%       Vertical center of watermark text &
-%       |\SetWatermarkVerCenter{|\meta{length}|}|\\
-%       Watermark text &
-%       |\SetWatermarkText{|\meta{text}|}|\\
-%       \hline
-%     \end{tabular}
-%   \end{center}
-%   \caption{Commands affecting the package behavior.}
-%   \label{tbl:commands}
-% \end{table}
+% Via the |\DraftwatermarkOptions| command, the |stamp| option can be
+% given at arbitrary points in the document to suspend or resume
+% watermarking. In this way one can \emph{manually} apply the watermark
+% only on selected pages of a document.
 %
-% Note that \meta{col\_spec} can be either a named color such as
-% |{|\meta{name}|}| or a color specification such as
-% |[|\meta{model}|]{|\meta{specs}|}|. For instance
-% \begin{quote}
-%  |\SetWatermarkColor{red}|\\
-%  |\SetWatermarkColor[rgb]{0,1,0}|
-% \end{quote}
-% \DescribeMacro{\SetWatermarkLightness}
-% are both valid colors. Also note that the command
-% \begin{quote}
-%   |\SetWatermarkLightness{|\meta{real}|}|
-% \end{quote}
-% is provided as a conveniency (and for backward compatibility) to select
-% gray watermarks (1=white, 0=black).
+% \subsection{The watermark text size}
+% \label{ssec:fontsize}
 %
-% Observe that the |\SetWatermarkFontSize|,
-% |\SetWatermarkHorCenter| and |\SetWatermarkVerCenter|
-% commands take a length rather than a simple number.
-% Also observe that multiline textual
-% watermarks can easily be obtained by the |\shortstack| command and
-% that there is the possibility of using an image rather than a text
-% (e.g., a ``caution, work in progress'' sign, etc.). 
+% The package lets one control the watermark size in two different
+% ways. One is by picking a font size via the |fontsize| option; the other
+% one is by scaling the watermark with the |scale| option.
 %
-% Note that once the package is loaded, there is no way to stop it.
-% In order to have textual watermarks that appear only when
-% specific conditions are met, conditionals must be included in the
-% watermarks.
+% In principle, using a large font to produce a large textual watermark is
+% the preferred choice. In fact, a font with a large point size is not
+% just a scaled up version of the same font with a small point
+% size. Conversely, it is a font where all the traits are adjusted to
+% actually look well at a large size. This is why \Lpack{draftwatermark}
+% defaults to setting |scale=1| and to a large point size for the font (in
+% fact, sufficiently large to get the word ``DRAFT'', rotated at
+% 45\textdegree, take about half of the page width.
+%
+% Nonetheless asking for a large font may not work, if \LaTeX\ has not
+% been set up to use \emph{scalable} fonts. For this reason, the
+% recommendation is to always use \Lpack{draftwatermark} on \LaTeX\ or
+% \hologo{pdfLaTeX} together with other packages that trigger the usage of
+% fully scalable fonts (practical examples may be \Lpack{newtx} or
+% \Lpack{mathptmx}, etc.). An even better alternative is to use modern
+% \TeX\ engines, as in \hologo{XeLaTeX} or \hologo{LuaLaTeX} with
+% \Lpack{fontspec}. In any case, recall that even with scalable fonts,
+% \LaTeX\ may be unable to deal with extremely large font sizes (e.g.,
+% $\gg 5\,\mathrm{cm}$). If really large letters are required for the
+% watermark, a suitable combination of |fontsize| and |scale| may be
+% needed.
+%
+% One can immediately realize when \LaTeX\ is unable to deal with the
+% package default or selected |fontsize| from two things: (i) a font
+% warning from \LaTeX; and (ii) a tiny watermark text whose size seems not
+% to react to the |fontsize| option. In this case, either switch to
+% scalable fonts or select a small |fontsize| (e.g., |12pt|) together with
+% a |scale| significantly larger than |1|.
+%
+% \subsection{The watermark text}
+% \label{ssec:text}
+%
+% As previously noticed, the watermark text can be specified with the
+% |text| option. The value passed to the |text| option does not need to be
+% a plain string. Conversely, it may include formatting marks, such as
+% line break commands (e.g., |\\|) or commands to select font variants
+% (e.g., |\bfseries|). In fact, it is also possible to use a command to
+% include an image as the text. A word of caution is necessary, though. To
+% use \LaTeX\ commands in the watermark text, please configure the latter
+% via the |\DraftwatermarkOptions| command. Trying to do so by passing
+% options to the \Lpack{draftwatermark} package via the |\usepackage|
+% mechanism may fail due to how \LaTeX\ parses option strings. Also note
+% that the text may need to be surrounded by braces.
+%
+% If the watermark text includes line breaks, \Lpack{draftwatermark} will
+% use a default interline space set to 1.2 times the font size. Consider
+% that multiline texts with alignment, taking up their natural width can
+% easily be obtained with the |\shortstack| command.
+%
+% Also, note that the watermark typesetting happens inside a \TeX\
+% group, to make sure that any parameter setting you do in the |text|
+% token list can stay local.
+%
+% As a further remark, observe that in order to only put a watermark on
+% selected pages, an alternative to changing the |stamp| configuration
+% option at arbitrary points in the document can be to use conditional
+% expressions in the watermark text itself.
+%
+% \subsection{The watermark positioning}
+%
+% The watermark position is controlled via the |hpos| and |vpos|
+% configuration options (or alternatively, by the |pos| configuration
+% option). It is worth underlining that these configuration parameters
+% require \emph{lengths} not plain numbers.
+%
+% The coordinates used by the positioning parameters are measured from the
+% top left corner of the page. They work in conjunction with the anchoring
+% parameters (|hanchor|, |vanchor| and |anchor|). Specifically, the anchor
+% point of the watermark is placed at the specified position. The default
+% is to center the watermark on the page, but it is possible to choose
+% other positions by a smart choice of the positioning and anchoring
+% parameters. For instance, one may want to put the watermark on the top
+% right corner of each page, which can be easily done with an |rt|
+% anchoring.
+%
+% As a final remark, observe that the specification of the positioning
+% coordinates can be based on \LaTeX\ macros. For instance, one can set
+% the horizontal position at |0.5\paperwidth| (for centering) or at
+% |\dimexpr\paperwidth-5mm| (for placement at the right hand side of the
+% page). Interestingly, \Lpack{draftwatermark} re-evaluates the
+% positioning coordinates on every page. This means that positions based
+% on |\paperwidth| or |\paperheight| should dynamically adjust if the page
+% size is changed through the document.
 % 
-% Eventually consider that no special assumption is made on the
-% \LaTeX\ output driver, so \Lpack{draftwatermark} should work equally
-% well with \LaTeX\ and pdf\LaTeX. Furthermore, the package should
-% work equally well with the dvi, dvips, etc.\@ output drivers.
-% Obviously, the final compatibility with the different output drivers
-% depends on the actual code that is placed in the textual watermark.
-% 
-% \section{Example}
-% 
-% As an example, consider the following code snippet:
+% \section{The standard watermark and ways of overriding it}
+% \label{sec:markcmd}
+%
+% In order to simplify its usage as much as possible, the
+% \Lpack{draftwatermark} package is designed under the assumption that,
+% most of the time, the user will need just a \emph{textual} watermark and
+% some basic way to tune its visual aspect, such as choosing the text
+% font, font size, scale, rotation angle, etc.
+%
+% \DescribeMacro{\DraftwatermarkStdMark} To this aim, the macro
+% |\DraftwatermarkStdMark| is provided to do the standard job of
+% typesetting the watermark text according to the configuration-defined
+% font, color, angle, and so on. Then the package arranges so that this
+% macro is called whenever watermarking is needed.
+%
+% In case the facilities provided by |\DraftwatermarkStdMark| are
+% insufficient, the package user can set up his/her own macro to do the
+% watermark typesetting and instruct \Lpack{draftwatermark} to use it in
+% place of |\DraftwatermarkStdMark|. This is done by using the
+% configuration option |markcmd| that takes the new macro name as its
+% parameter. The advice is to always write a new macro rather than
+% redefining or patching |\DraftwatermarkStdMark|. Note that because
+% |markcmd| can be reconfigured multiple times, one may actually define
+% multiple macros to get different watermark layouts on different
+% pages of the same document.
+%
+% \begin{sloppy} It is worth recalling that when |markcmd| is set to
+%   something different from |\DraftwatermarkStdMark|, the angle, font,
+%   scale, color parameters will be ignored. In this case, the package
+%   user is on his/her own if he/she wants to parametrize the watermark
+%   appearance.
+%
+% \end{sloppy}
+%
+% \section{Compatibility notes for version 2.0 of the package and later
+% versions}
+%
+% Version 2.0 of the package is an almost complete rewrite with respect to
+% version 1.2. Specifically, all the configuration mechanism has been
+% overhauled, by moving to an interface based on configuration keys and
+% associated values.
+%
+% In principle, compatibility to the 1.x series should be fully preserved
+% by the provision of a \emph{legacy interface}. In case old documents are
+% broken by the 2.x series, please report it as a bug.
+%
+% The advice is not to use the legacy interface in new documents, unless
+% you know that they will need to be processed in environments lacking a
+% recent \Lpack{draftwatermark}.
+%
+% \subsection{The legacy interface}
+%
+% The legacy interface is composed by the following commands:
+% \begin{itemize}
+% \item \DescribeMacro{\SetWatermarkAngle}^^A
+%   Command |\SetWatermarkAngle{<real>}| is the same as\\
+%   |\DraftwatermarkOptions{angle=<real>}|.
+% \item \DescribeMacro{\SetWatermarkColor}^^A
+%   Command |\SetWatermarkColor[<model>]{<color spec>}| is the same as\\
+%   |\DraftwatermarkOptions{color={[<model>]{<color spec>}}}|.
+% \item \DescribeMacro{\SetWatermarkLightness}^^A
+%   Command |\SetWatermarkLightness{<real>}| is the same as\\
+%   |\DraftwatermarkOptions{color={[<gray>]{<real>}}}|. The real value
+%   should be in between 0 (for black) and 1 (for white).
+% \item \DescribeMacro{\SetWatermarkFontSize}^^A
+%   Command |\SetWatermarkFontSize{<length>}| is the same as\\
+%   |\DraftwatermarkOptions{fontsize=<length>}|.
+% \item \DescribeMacro{\SetWatermarkScale}^^A
+%   Command |\SetWatermarkScale{<real>}| is the same as\\
+%   |\DraftwatermarkOptions{scale=<real>}|.
+% \item \DescribeMacro{\SetWatermarkHorCenter}^^A
+%   Command |\SetWatermarkHorCenter{<length>}| is the same as\\
+%   |\DraftwatermarkOptions{hpos=<length>, hanchor=c}|.
+% \item \DescribeMacro{\SetWatermarkVerCenter}^^A
+%   Command |\SetWatermarkVerCenter{<length>}| is the same as\\
+%   |\DraftwatermarkOptions{vpos=<length>, vanchor=m}|.
+% \item \DescribeMacro{\SetWatermarkText}^^A
+%   Command |\SetWatermarkText{<text>}| is the same as\\
+%   |\DraftwatermarkOptions{text=<text>}|.
+% \end{itemize}
+%
+% Note that the legacy interface supports only a subset of what is
+% possible with the modern interface.
+%
+% \section{Examples}
+%
+% \subsection{Plain case, using  the modern package interface}
+%
+% As an example, consider this first document source:
+%
 % \iffalse
-%<*samplecode>
+%<*samplecode-modern> 
 % \fi
 %    \begin{macrocode}
 \documentclass{article}
-\usepackage[utf8]{inputenc}
+\usepackage[named]{xcolor}
 \usepackage[T1]{fontenc}
+\usepackage[firstpageonly, color={[gray]{0.5}}]{draftwatermark}
 \usepackage{mathptmx}
-\usepackage{draftwatermark}
+\usepackage{lipsum}
 \title{Sample document for the draftwatermark package}
+\author{}
 
 \begin{document}
 \maketitle
 
 \section{One}
-This text is here just to fill in some space. This text is here just to
-fill in some space. This text is here just to fill in some space. This
-text is here just to fill in some space. This text is here just to fill in
-some space. This text is here just to fill in some space. This text is
-here just to fill in some space. This text is here just to fill in some
-space. This text is here just to fill in some space. This text is here
-just to fill in some space. This text is here just to fill in some
-space. This text is here just to fill in some space. This text is here
-just to fill in some space. This text is here just to fill in some
-space. This text is here just to fill in some space. This text is here
-just to fill in some space. This text is here just to fill in some
-space. This text is here just to fill in some space. This text is here
-just to fill in some space. This text is here just to fill in some
-space. This text is here just to fill in some space.
+\lipsum[1-3]
 
 \section{Two}
-
-Also this text is here just to fill in some space. Also this text is here
-just to fill in some space. Also this text is here just to fill in some
-space. Also this text is here just to fill in some space. Also this text
-is here just to fill in some space. Also this text is here just to fill in
-some space. Also this text is here just to fill in some space. Also this
-text is here just to fill in some space. Also this text is here just to
-fill in some space. Also this text is here just to fill in some
-space. Also this text is here just to fill in some space. Also this text
-is here just to fill in some space. Also this text is here just to fill in
-some space. Also this text is here just to fill in some space. Also this
-text is here just to fill in some space. Also this text is here just to
-fill in some space. Also this text is here just to fill in some space.
+\lipsum[4-6]
 
 \end{document}
 %    \end{macrocode}
 % \iffalse
-%</samplecode>
+%</samplecode-modern>
 % \fi
+% \makeatletter \c@CodelineNo\z@ \makeatother
 %
+% This produces a two pages document with placeholder content, putting a
+% page-centered watermark on the first page only. The watermark is made a
+% slightly darker toneof gray than the default.
+%
+% \subsection{Plain case, using the legacy interface}
+%
+% Using the legacy interface, the source for the same sample document as
+% above would look like:
+% \iffalse
+%<*samplecode-legacy> 
+% \fi
+%    \begin{macrocode}
+\documentclass{article}
+\usepackage[named]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[firstpage]{draftwatermark}
+\usepackage{mathptmx}
+\usepackage{lipsum}
+
+\SetWatermarkLightness{0.5}
+
+\title{Sample document for the draftwatermark package}
+\author{}
+
+\begin{document}
+\maketitle
+
+\section{One}
+\lipsum[1-3]
+
+\section{Two}
+\lipsum[4-6]
+
+\end{document}
+%    \end{macrocode}
+% \iffalse
+%</samplecode-legacy>
+% \fi
+% \makeatletter \c@CodelineNo\z@ \makeatother
+%
+% \subsection{Things that cannot be done with the legacy interface}
+%
+% A major limitation of the legacy interface that has been removed with
+% the modern interface is the inability to control the watermark
+% anchoring. For instance, one may want the watermark to appear in the
+% right top angle of every page. With the modern interface, such a result
+% can be easily obtained as in the following sample code:
+% \iffalse
+%<*samplecode-anchor> 
+% \fi
+%    \begin{macrocode}
+\documentclass{article}
+\usepackage[named]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[firstpage, anchor=tr, color=red,
+  pos={\dimexpr\paperwidth-5mm, 5mm},
+  angle=-45, fontsize=32pt]{draftwatermark}
+\usepackage{mathptmx}
+\usepackage{lipsum}
+\title{Sample document for the draftwatermark package}
+\author{}
+
+\DraftwatermarkOptions{text=\bfseries DRAFT}
+\begin{document}
+\maketitle
+
+\section{One}
+\lipsum[1-3]
+
+\section{Two}
+\lipsum[4-6]
+
+\end{document}
+%    \end{macrocode}
+% \iffalse
+%</samplecode-anchor>
+% \fi
+% \makeatletter \c@CodelineNo\z@ \makeatother
+%
+% \subsection{Maximum freedom with a custom watermarking command}
+%
+% As a final example, see how maximum freedom can be obtained with a
+% custom watermarking command. The following document source lets one have
+% a watermark on the top right corner of odd pages and on the top left
+% corner of even pages.
+% \iffalse
+%<*samplecode-custom> 
+% \fi
+%    \begin{macrocode}
+\documentclass{article}
+\usepackage[named]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{draftwatermark}
+\usepackage{mathptmx}
+\usepackage[scaled]{helvet}
+\usepackage{lipsum}
+\title{Sample document for the draftwatermark package}
+\author{}
+
+\newsavebox\wmbox
+\savebox\wmbox{%
+  {\color[rgb]{1,0.8,0.8}\sffamily \fbox{DRAFT}}}
+\newcommand\MyWM{%
+  \ifodd\thepage
+    \hspace*{\dimexpr \paperwidth -\wd\wmbox-10mm}%
+    \usebox{\wmbox}%
+  \else
+    \usebox{\wmbox}%
+  \fi}
+
+\DraftwatermarkOptions{anchor=lt, pos={5mm, 5mm}, markcmd=\MyWM}
+\begin{document}
+\maketitle
+
+\section{One}
+\lipsum[1-3]
+
+\section{Two}
+\lipsum[4-6]
+
+\end{document}
+%    \end{macrocode}
+% \iffalse
+%</samplecode-custom>
+% \fi
+% \makeatletter \c@CodelineNo\z@ \makeatother
+%
+% 
 % \section{Development and support}
 %
-% The package is developed at \emph{github}:
+% The package is developed on \emph{github}:
 % \begin{quote}
 %   \url{https://github.com/callegar/LaTeX-draftwatermark}
 % \end{quote}
-% Please refer to that site for any bug report or development information.
+% Please, refer to that site for any bug report or development
+% information.  Be so kind to refrain from opening bugs for enhancement
+% requests that, from the present document, would evidently require moving
+% against some fundamental design decisions.
 %
 % \section{Changelog}
+%
 % \begin{description}
 % \item[1.0 - 2006/06/30] Initial version.
-% \item[1.1 - 2012/01/06] Add support for colored watermarks; Options to
-%   disable watermarking; Many small fixes in the documentation.
+% \item[1.1 - 2012/01/06] Add support for colored watermarks; options to
+%   disable watermarking; many small fixes in the documentation.
 % \item[1.2 - 2015/02/19] Add support for watermark position.
+% \item[2.0 - 2020/03/08] Configuration management overhaul; introduction
+%   of a legacy interface for compatibility.
 % \end{description}
 %
 % \StopEventually {}
@@ -360,174 +673,255 @@ fill in some space. Also this text is here just to fill in some space.
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{draftwatermark}%
-  [2015/02/19 1.2 Put a gray textual watermark on document pages]
+  [2020/03/14 2.0 Put a gray textual watermark on document pages]
+
 %    \end{macrocode}
 %
-% Require the needed packages. Note that if these are pre-loaded
-% before loading \Lpack{draftwatermark}, using suitable options to
-% preset behavior for a desired output driver, this is used also
-% here.
+% Require the needed packages.
 %    \begin{macrocode}
+\RequirePackage{kvoptions}
 \RequirePackage{everypage}[2007/06/20]
 \RequirePackage{graphicx}
 \RequirePackage{color}
+
 %    \end{macrocode}
 %
-% \begin{macro}{\if@sc@wm@first}
-% Set up the conditional to store whether a watermark is needed only
-% on the first page or everywhere.
+% Define the configuration options and default values.
 %    \begin{macrocode}
-\newif\if@sc@wm@first
-\@sc@wm@firstfalse
+\DeclareBoolOption[false]{firstpageonly}
+\define@key{draftwatermark}{firstpage}[true]{%
+  \csname draftwatermark@firstpageonly#1\endcsname}
+\DeclareBoolOption[true]{stamp}
+\DeclareComplementaryOption{nostamp}{stamp}
+\DeclareComplementaryOption{final}{stamp}
+\DeclareStringOption[45]{angle}
+\DeclareStringOption[1]{scale}
+\DeclareStringOption[DRAFT]{text}
+\DeclareStringOption[0.5\paperwidth]{hpos}
+\DeclareStringOption[0.5\paperheight]{vpos}
+\DeclareStringOption[0.25\paperwidth]{fontsize}
+\DeclareStringOption[gray]{colormodel}
+\DeclareStringOption[0.8]{colorspec}
+\DeclareStringOption[c]{hanchor}
+\DeclareStringOption[m]{vanchor}
+\DeclareStringOption[\DraftwatermarkStdMark]{markcmd}
+\define@key{draftwatermark}{pos}{%
+  \draftwatermark@processpos #1\@nil}
+\define@key{draftwatermark}{anchor}{%
+  \draftwatermark@processanchor{#1}}
+\define@key{draftwatermark}{color}{%
+  \draftwatermark@processcolor #1\@nil}
+
 %    \end{macrocode}
-% \end{macro}
+%
+% Set up some helper marcros to process the options. These should be
+% rather self-explanatory.
+%    \begin{macrocode}
+\def\draftwatermark@processpos#1,#2\@nil{%
+  \def\draftwatermark@hpos{#1}%
+  \def\draftwatermark@vpos{#2}}
+
+\def\draftwatermark@processanchor#1{%
+  \def\draftwatermark@tempa{#1}
+  \@onelevel@sanitize \draftwatermark@tempa
+  \expandafter \@tfor \expandafter \draftwatermark@tempb
+    \expandafter :\expandafter =\draftwatermark@tempa
+    \do
+    {%
+      \if \draftwatermark@tempb l%
+        \def \draftwatermark@hanchor{l}%
+      \else \if \draftwatermark@tempb c%
+        \def \draftwatermark@hanchor{c}%
+      \else \if \draftwatermark@tempb r%
+        \def \draftwatermark@hanchor{r}%
+      \else \if \draftwatermark@tempb t%
+        \def \draftwatermark@vanchor{t}%
+      \else \if \draftwatermark@tempb m%
+        \def \draftwatermark@vanchor{m}%
+      \else \if \draftwatermark@tempb b%
+        \def \draftwatermark@vanchor{b}
+      \else
+        \PackageError{draftwatermark}{%
+          Illegal anchor directive `\draftwatermark@tempb'}%
+          {Directive has been ingnored.}%
+      \fi\fi\fi\fi\fi\fi
+    }}
+
+\def\draftwatermark@processcolor{%
+  \@ifnextchar[
+    \draftwatermark@processcolor@ii\draftwatermark@processcolor@i}
+
+\def\draftwatermark@processcolor@i#1\@nil{%
+  \def\draftwatermark@colormodel{}%
+  \def\draftwatermark@colorspec{#1}}
+
+\def\draftwatermark@processcolor@ii[#1]#2\@nil{%
+  \def\draftwatermark@colormodel{#1}%
+  \def\draftwatermark@colorspec{#2}}
+
+%    \end{macrocode}
+%
+% Process the package options\dots
+%    \begin{macrocode}
+\ProcessKeyvalOptions*
+%    \end{macrocode}
 % 
-% \begin{macro}{\if@sc@wm@stamp}
-%   Set up the conditional to store whether to stamp the watermark or not.
+% \dots\, and then disable the |firstpageonly| and |firstpage| options,
+% that can only be used at the package loading time.
 %    \begin{macrocode}
-\newif\if@sc@wm@stamp
-\@sc@wm@stamptrue
+\DisableKeyvalOption{draftwatermark}{firstpageonly}
+\DisableKeyvalOption{draftwatermark}{firstpage}
+
 %    \end{macrocode}
-% \end{macro}
-% 
-% Declare the package options.
+%
+% \begin{macro}{\DraftwatermarkOptions}
+%   Set up a command to modify the configuration as needed.
 %    \begin{macrocode}
-\DeclareOption{firstpage}{%
-  \@sc@wm@firsttrue}
-\DeclareOption{nostamp}{%
-  \@sc@wm@stampfalse}
-\DeclareOption{final}{%
-  \@sc@wm@stampfalse}
-\DeclareOption{stamp}{%
-  \@sc@wm@stamptrue}
-\ProcessOptions
+\newcommand\DraftwatermarkOptions[1]{\setkeys{draftwatermark}{#1}}
+
 %    \end{macrocode}
-% 
-% \begin{macro}{\sc@wm@angle}
-% \begin{macro}{\sc@wm@colormodel}
-% \begin{macro}{\sc@wm@colorspecs}
-% \begin{macro}{\sc@wm@scale}
-% \begin{macro}{\sc@wm@hcenter}
-% \begin{macro}{\sc@wm@vcenter}
-% \begin{macro}{\sc@wm@fontsize}
-% \begin{macro}{\sc@wm@text}
-% Set up the package defaults.
-%    \begin{macrocode}
-\newlength\sc@wm@hcenter
-\newlength\sc@wm@vcenter
-\newlength\sc@wm@fontsize
-%% defaults
-\def\sc@wm@angle{45}
-\def\sc@wm@colormodel{[gray]}
-\def\sc@wm@colorspecs{0.8}
-\def\sc@wm@scale{1}
-\setlength\sc@wm@hcenter{.5\paperwidth}
-\setlength\sc@wm@vcenter{.5\paperheight}
-\setlength\sc@wm@fontsize{5cm}
-\def\sc@wm@text{DRAFT}
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
 % \end{macro}
 %
+% Introduce the legacy interface.
 % \begin{macro}{\SetWatermarkAngle}
-% \begin{macro}{\SetWatermarkColor}
-% \begin{macro}{\SetWatermarkLightness}
+%   Legacy command to set the rotation angle for the standard watermark
+%    \begin{macrocode}
+\newcommand\SetWatermarkAngle[1]{\DraftwatermarkOptions{angle=#1}}
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\SetWatermarkFontSize}
+%   Legacy command to set the font size for the standard watermark
+%    \begin{macrocode}
+\newcommand\SetWatermarkFontSize[1]{\DraftwatermarkOptions{fontsize=#1}}
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\SetWatermarkScale}
+%   Legacy command to set the scale for the standard watermark
+%    \begin{macrocode}
+\newcommand\SetWatermarkScale[1]{\DraftwatermarkOptions{scale=#1}}
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\SetWatermarkHorCenter}
 % \begin{macro}{\SetWatermarkVerCenter}
-% \begin{macro}{\SetWatermarkText}
-% Set up the commands to modify the behavior.
+% Legacy commands to set the horizontal and vertical position for the
+% standard watermark, also forcing it to be centered there.
 %    \begin{macrocode}
-\newcommand\SetWatermarkAngle[1]{%
-  \def\sc@wm@angle{#1}}
-\newcommand\SetWatermarkColor{}
-\def\SetWatermarkColor#1#{\sc@setWatermarkColor{#1}}
-\def\sc@setWatermarkColor#1#2{%
-  \def\sc@wm@colormodel{#1}%
-  \def\sc@wm@colorspecs{#2}}
-\newcommand\SetWatermarkLightness[1]{%
-  \SetWatermarkColor[gray]{#1}}
-\newcommand\SetWatermarkFontSize[1]{%
-  \setlength\sc@wm@fontsize{#1}}
-\newcommand\SetWatermarkScale[1]{%
-  \def\sc@wm@scale{#1}}
 \newcommand\SetWatermarkHorCenter[1]{%
-  \setlength\sc@wm@hcenter{#1}}
+  \DraftwatermarkOptions{hpos=#1, hanchor=c}}
 \newcommand\SetWatermarkVerCenter[1]{%
-  \setlength\sc@wm@vcenter{#1}}
-\newcommand\SetWatermarkText[1]{%
-  \def\sc@wm@text{#1}}
+  \DraftwatermarkOptions{vpos=#1, vanchor=m}}
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% 
-%\begin{macro}{\sc@watermark}
-% The command to draw the watermark\ldots This assumes an origin in
-% the left top corner of the page (and also assumes that |\paperwidth|
-% and |\paperheight| are set correctly if accepting the defaults).
-% There is no need to worry
-% about the horizontal and vertical size that is taken by the
-% watermark object. Note that this is typically a text, but
-% |\sc@wm@text| may well contain other material, e.g.\@ an
-% |\includegraphics| directive.
+% \begin{macro}{\SetWatermarkText}
+%   Legacy command to set the text of the standard watermark
 %    \begin{macrocode}
-\newcommand\sc@watermark{%
-  \setlength{\@tempdimb}{\sc@wm@hcenter}%
-  \setlength{\@tempdimc}{-\sc@wm@vcenter}%
-  \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
-    \makebox(0,0){\rotatebox{\sc@wm@angle}{%
-        \scalebox{\sc@wm@scale}{%
-          \expandafter\expandafter\expandafter\textcolor
-          \expandafter\sc@wm@colormodel\expandafter{\sc@wm@colorspecs}{%
-            \fontsize{\sc@wm@fontsize}{1.2\sc@wm@fontsize}
-            \selectfont
-            \sc@wm@text}}}}}}
+\newcommand\SetWatermarkText[1]{\DraftwatermarkOptions{text=#1}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\SetWatermarColor}
+% \begin{macro}{\SetWatermarkLightness}
+% Legacy commands to set the color for the
+% standard watermark.
+%    \begin{macrocode}
+\newcommand\SetWatermarkColor[2][]{%
+  \DraftwatermarkOptions{colormodel=#1, colorspec=#2}}
+\newcommand\SetWatermarkLightness[1]{%
+  \DraftwatermarkOptions{colormodel=gray, colorspec=#1}}
+
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\DraftwatermarkStdMark}
+% The command to generate the standard watermark
+%    \begin{macrocode}
+\newcommand\DraftwatermarkStdMark{%
+  \rotatebox{\draftwatermark@angle}{%
+    \scalebox{\draftwatermark@scale}{%
+      \begingroup
+      \ifx\draftwatermark@colormodel\@empty
+        \color{\draftwatermark@colorspec}%
+      \else
+        \color[\draftwatermark@colormodel]{\draftwatermark@colorspec}%
+      \fi
+      \setlength{\@tempdima}{\draftwatermark@fontsize}%
+      \fontsize{\@tempdima}{1.2\@tempdima}\selectfont
+      \draftwatermark@text
+      \endgroup}}}
+
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\sc@wm@print}
-% The command to actually \emph{print} the watermark. It is assumed
-% that this is called before any other material is shipped to the
-% page. As such, the origin here is the page origin in Knuthian sense
-% (1 inch down, 1 inch right from the top left corner of the
-% page\ldots First of all, this is changed to the proper top left
-% corner of the page. 
+% The code to actually print the watermark
 %    \begin{macrocode}
-\newcommand\sc@wm@print[1]{%
-  \if@sc@wm@stamp
-  \setbox\@tempboxa\vbox to \z@{%
-    \vskip -1in \moveleft 1in \vbox{%
-      \hbox to \z@{%
-        #1\hss}}\vss}
-  \dp\@tempboxa\z@
-  \box\@tempboxa
+\newcommand\draftwatermark@printwm[1]{%
+  \sbox\@tempboxa{#1}%
+  \setlength{\@tempdima}{\draftwatermark@hpos}%
+  \setlength{\@tempdimb}{\draftwatermark@vpos}%
+  \let \draftwatermark@tempa \draftwatermark@hanchor
+  \@onelevel@sanitize \draftwatermark@tempa
+  \expandafter\def\expandafter\draftwatermark@tempb
+    \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}
+  \if \draftwatermark@tempb r%
+    \addtolength\@tempdima{-\wd\@tempboxa}%
+  \else\if \draftwatermark@tempb c%
+    \addtolength\@tempdima{-0.5\wd\@tempboxa}%
+  \else\if \draftwatermark@tempb l%
+    \relax
+  \else
+    \PackageError{draftwatermark}{%
+      Illegal anchor directive `\draftwatermark@tempb'}%
+        {Anchoring to left side.}%
+  \fi\fi\fi  
+  \let \draftwatermark@tempa \draftwatermark@vanchor
+  \@onelevel@sanitize \draftwatermark@tempa
+  \expandafter\def\expandafter\draftwatermark@tempb
+    \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}
+  \if \draftwatermark@tempb b%
+    \addtolength\@tempdimb{-\ht\@tempboxa}%
+    \addtolength\@tempdimb{-\dp\@tempboxa}%
+  \else\if \draftwatermark@tempb m%
+    \addtolength\@tempdimb{-0.5\ht\@tempboxa}%
+    \addtolength\@tempdimb{-0.5\dp\@tempboxa}%
+  \else\if \draftwatermark@tempb t%
+    \relax
+  \else
+    \PackageError{draftwatermark}{%
+      Illegal anchor directive `\draftwatermark@tempb'}%
+        {Anchoring to top side.}%
+  \fi\fi\fi 
+  \vbox to 0pt {
+      \vspace*{-1in}%
+      \vspace*{\@tempdimb}%
+      \hbox to 0pt {%
+        \hspace*{-1in}%
+        \hspace*{\@tempdima}%
+        \usebox\@tempboxa
+        \hss}%
+      \vss}}
+
+%    \end{macrocode}
+%
+% A wrapper to make the watermark printing conditional
+%    \begin{macrocode}
+\newcommand\draftwatermark@print[1]{%
+  \ifdraftwatermark@stamp
+    \draftwatermark@printwm{#1}%
   \fi}
 %    \end{macrocode}
-% \end{macro}
 %
-% Eventually, set up the |\sc@wm@print| command to be called when
-% needed, using the appropriate \Lpack{everypage} hook.
+% \dots\, and finally the code to set up the \Lpack{everypage} hooks to
+% assure that the watermark printing commands are called when needed
 %    \begin{macrocode}
-\if@sc@wm@first
-\AddThispageHook{\sc@wm@print{\sc@watermark}}
+\ifdraftwatermark@firstpageonly
+  \AddThispageHook{\draftwatermark@print{\draftwatermark@markcmd}}
 \else
-\AddEverypageHook{\sc@wm@print{\sc@watermark}}
+  \AddEverypageHook{\draftwatermark@print{\draftwatermark@markcmd}}
 \fi
-\endinput
 %    \end{macrocode}
+
+
 % \iffalse
 %</draftwatermark>
 % \fi
