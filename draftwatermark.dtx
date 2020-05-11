@@ -859,7 +859,7 @@
   \sbox\@tempboxa{#1}%
   \setlength{\@tempdima}{\draftwatermark@hpos}%
   \setlength{\@tempdimb}{\draftwatermark@vpos}%
-  \let \draftwatermark@tempa \draftwatermark@hanchor
+  \edef \draftwatermark@tempa{\draftwatermark@hanchor}%
   \@onelevel@sanitize \draftwatermark@tempa
   \expandafter\def\expandafter\draftwatermark@tempb
     \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}%
@@ -874,7 +874,7 @@
       Illegal anchor directive `\draftwatermark@tempb'}%
         {Anchoring to left side.}%
   \fi\fi\fi  
-  \let \draftwatermark@tempa \draftwatermark@vanchor
+  \edef \draftwatermark@tempa{\draftwatermark@vanchor}%
   \@onelevel@sanitize \draftwatermark@tempa
   \expandafter\def\expandafter\draftwatermark@tempb
     \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}%
