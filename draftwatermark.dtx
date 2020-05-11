@@ -862,7 +862,7 @@
   \let \draftwatermark@tempa \draftwatermark@hanchor
   \@onelevel@sanitize \draftwatermark@tempa
   \expandafter\def\expandafter\draftwatermark@tempb
-    \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}
+    \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}%
   \if \draftwatermark@tempb r%
     \addtolength\@tempdima{-\wd\@tempboxa}%
   \else\if \draftwatermark@tempb c%
@@ -877,7 +877,7 @@
   \let \draftwatermark@tempa \draftwatermark@vanchor
   \@onelevel@sanitize \draftwatermark@tempa
   \expandafter\def\expandafter\draftwatermark@tempb
-    \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}
+    \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}%
   \if \draftwatermark@tempb b%
     \addtolength\@tempdimb{-\ht\@tempboxa}%
     \addtolength\@tempdimb{-\dp\@tempboxa}%
@@ -891,7 +891,7 @@
       Illegal anchor directive `\draftwatermark@tempb'}%
         {Anchoring to top side.}%
   \fi\fi\fi 
-  \vbox to 0pt {
+  \vbox to 0pt {%
       \vspace*{-1in}%
       \vspace*{\@tempdimb}%
       \hbox to 0pt {%
