@@ -385,13 +385,22 @@
 %
 % As a final remark, observe that the specification of the positioning
 % coordinates can be based on \LaTeX\ macros. For instance, one can set
-% the horizontal position at |0.5\paperwidth| (for centering) or at
+% the horizontal position |hpos| at |0.5\paperwidth| (for centering) or at
 % |\dimexpr\paperwidth-5mm| (for placement at the right hand side of the
 % page). Interestingly, \Lpack{draftwatermark} re-evaluates the
 % positioning coordinates on every page. This means that positions based
 % on |\paperwidth| or |\paperheight| should dynamically adjust if the page
-% size is changed through the document.
-% 
+% size is changed through the document. To some extent, this is also true
+% of the anchor options. For instance, one may set the horizontal anchor
+% |hanchor| at |\ifodd\thepage r\else l\fi| causing the anchor point to
+% alternate between |r| and |l| at every new page. In conjunction with a
+% similarly conditional |hpos| setting, for instance
+% |\ifodd\thepage \dimexpr\paperwidth-5mm\else 5mm\fi|, this enables
+% interesting effects, like placing the watermark close to the right side
+% of the page on odd pages and to the left side of the page on even
+% pages. Obviously, this kind of setting is only applicable with the
+% |hanchor| and |vanchor| options, and not with the |anchor| shorthand.
+%
 % \section{The standard watermark and ways of overriding it}
 % \label{sec:markcmd}
 %
