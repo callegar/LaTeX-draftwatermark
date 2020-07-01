@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PKGNAME=draftwatermark
-PKGVERS=2-1
+PKGVERS=2-2
 PKGCNT=("draftwatermark.dtx" "draftwatermark.ins" "README.md" "draftwatermark.pdf")
 
 # Process documentation
