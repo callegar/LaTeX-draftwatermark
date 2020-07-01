@@ -54,7 +54,7 @@
   \ProcessKeyvalOptions, \ProvidesPackage}
 \DoNotIndex{\relax, \RequirePackage, \rotatebox}
 \DoNotIndex{\savebox, \sbox, \scalebox, \section, \selectfont, \setkeys,
-  \setlength, \sffamily}
+  \setlength, \sffamily, \shortstack}
 \DoNotIndex{\thepage, \title}
 \DoNotIndex{\usebox, \usepackage}
 \DoNotIndex{\vbox, \vspace, \vss}
@@ -257,6 +257,11 @@
 %   for the |hanchor| and |vanchor| options. For instance, if the anchor
 %   specification is |lt|, then the top left corner of the watermark is
 %   placed at the position specified by the |hpos| and |vpos| options.
+% \item \verb!alignment=l|c|r!\\
+%   Default is |c|.\\
+%   Defines the alignment for the watermark text in case it contains line
+%   breaks. Specifically, |l| aligns left, |c| aligns at the center and
+%   |r| aligns right.
 % \item |colormodel=<color model>|\\
 %   Defaults to |gray|.\\
 %   Defines the color model for the specification of the color of the
@@ -344,17 +349,19 @@
 % a plain string. Conversely, it may include formatting marks, such as
 % line break commands (e.g., |\\|) or commands to select font variants
 % (e.g., |\bfseries|). In fact, it is also possible to use a command to
-% include an image as the text. A word of caution is necessary, though. To
-% use \LaTeX\ commands in the watermark text, please configure the latter
-% via the |\DraftwatermarkOptions| command. Trying to do so by passing
-% options to the \Lpack{draftwatermark} package via the |\usepackage|
-% mechanism may fail due to how \LaTeX\ parses option strings. Also note
-% that the text may need to be surrounded by braces.
+% include an image as the text. In case line breaks are present, the text
+% is left, right, center aligned according to the |alignment| option. A
+% word of caution is necessary, though. To use \LaTeX\ commands in the
+% watermark text, please configure the latter via the
+% |\DraftwatermarkOptions| command. Trying to do so by passing options to
+% the \Lpack{draftwatermark} package via the |\usepackage| mechanism may
+% fail due to how \LaTeX\ parses option strings. Also note that the text
+% may need to be surrounded by braces.
 %
 % If the watermark text includes line breaks, \Lpack{draftwatermark} will
-% use a default interline space set to 1.2 times the font size. Consider
-% that multiline texts with alignment, taking up their natural width can
-% easily be obtained with the |\shortstack| command.
+% use a default interline space set to 1.2 times the font
+% size. Internally, the multi-line text with alignment is managed by
+% surrounding the text with a \LaTeX\ |shortstack| command.
 %
 % Also, note that the watermark typesetting happens inside a \TeX\
 % group, to make sure that any parameter setting you do in the |text|
@@ -757,6 +764,7 @@
 \DeclareStringOption[0.8]{colorspec}
 \DeclareStringOption[c]{hanchor}
 \DeclareStringOption[m]{vanchor}
+\DeclareStringOption[c]{alignment}
 \DeclareStringOption[\DraftwatermarkStdMark]{markcmd}
 \define@key{draftwatermark}{pos}{%
   \draftwatermark@processpos #1\@nil}
@@ -900,7 +908,7 @@
       \fi
       \setlength{\@tempdima}{\draftwatermark@fontsize}%
       \fontsize{\@tempdima}{1.2\@tempdima}\selectfont
-      \draftwatermark@text
+      \shortstack[\draftwatermark@alignment]{\draftwatermark@text}%
       \endgroup}}}
 
 %    \end{macrocode}
