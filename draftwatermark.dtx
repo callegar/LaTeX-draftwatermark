@@ -31,6 +31,7 @@
 \setcounter{IndexColumns}{2}
 \setlength{\IndexMin}{3cm}
 
+\DoNotIndex{\\}
 \DoNotIndex{\begin, \end, \begingroup, \endgroup}
 \DoNotIndex{\csname, \endcsname}
 \DoNotIndex{\if, \else, \fi}
@@ -359,9 +360,9 @@
 % may need to be surrounded by braces.
 %
 % If the watermark text includes line breaks, \Lpack{draftwatermark} will
-% use a default interline space set to 1.2 times the font
-% size. Internally, the multi-line text with alignment is managed by
-% surrounding the text with a \LaTeX\ |shortstack| command.
+% use a very thin interline space, according to the fact that the
+% multi-line text is managed by surrounding the it with a \LaTeX\
+% |shortstack| command.
 %
 % Also, note that the watermark typesetting happens inside a \TeX\
 % group, to make sure that any parameter setting you do in the |text|
@@ -504,7 +505,8 @@
 \documentclass{article}
 \usepackage[named]{xcolor}
 \usepackage[T1]{fontenc}
-\usepackage[firstpageonly, color={[gray]{0.5}}]{draftwatermark}
+\usepackage[firstpageonly, color={[gray]{0.5}},
+  text=DRAFT\\COPY]{draftwatermark}
 \usepackage{mathptmx}
 \usepackage{lipsum}
 \title{Sample document for the draftwatermark package}
@@ -546,6 +548,7 @@
 \usepackage{lipsum}
 
 \SetWatermarkLightness{0.5}
+\SetWatermarkText{DRAFT\\COPY}
 
 \title{Sample document for the draftwatermark package}
 \author{}
