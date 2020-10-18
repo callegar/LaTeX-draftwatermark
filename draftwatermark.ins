@@ -56,22 +56,24 @@ necessarily be in the same archive or directory.)
 \endpreamble
 
 \Msg{*** Generating the LaTeX2e package files ***}
+\usedir{tex/latex/draftwatermark}
 \generate{\file{draftwatermark.sty}{%
-        \from{draftwatermark.dtx}{draftwatermark}}}
+  \from{draftwatermark.dtx}{draftwatermark}}}
 
 \preamble
 \endpreamble
 
 \Msg{*** Generating the example files ***}
-\generate{\file{test_draftwatermark1.tex}{%
+\usedir{doc/latex/draftwatermark/examples}
+\generate{\file{test_draftwatermark-1.tex}{%
         \from{draftwatermark.dtx}{samplecode-modern}}}
-\generate{\file{test_draftwatermark2.tex}{%
+\generate{\file{test_draftwatermark-2.tex}{%
         \from{draftwatermark.dtx}{samplecode-legacy}}}
-\generate{\file{test_draftwatermark3.tex}{%
+\generate{\file{test_draftwatermark-3.tex}{%
         \from{draftwatermark.dtx}{samplecode-anchor}}}
-\generate{\file{test_draftwatermark4.tex}{%
+\generate{\file{test_draftwatermark-4.tex}{%
         \from{draftwatermark.dtx}{samplecode-dynamic}}}        
-\generate{\file{test_draftwatermark5.tex}{%
+\generate{\file{test_draftwatermark-5.tex}{%
         \from{draftwatermark.dtx}{samplecode-custom}}}        
 
 %\ReportTotals
