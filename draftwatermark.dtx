@@ -485,7 +485,7 @@
 %   |\DraftwatermarkOptions{vpos=<length>, vanchor=m}|.
 % \item \DescribeMacro{\SetWatermarkText}^^A
 %   Command |\SetWatermarkText{<text>}| is the same as\\
-%   |\DraftwatermarkOptions{text=<text>}|.
+%   |\DraftwatermarkOptions{text={<text>}}|.
 % \end{itemize}
 %
 % Note that the legacy interface supports only a subset of what is
@@ -881,7 +881,7 @@
 % \begin{macro}{\SetWatermarkText}
 %   Legacy command to set the text of the standard watermark
 %    \begin{macrocode}
-\newcommand\SetWatermarkText[1]{\DraftwatermarkOptions{text=#1}}
+\newcommand\SetWatermarkText[1]{\DraftwatermarkOptions{text={#1}}}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\SetWatermarColor}
