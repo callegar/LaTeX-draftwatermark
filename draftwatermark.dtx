@@ -8,14 +8,16 @@
 % a contribution to the LaTeX2e system.
 % ---------------------------------------------
 %
-% It may be distributed and/or modified under the conditions of the
-% LaTeX Project Public License, version 1.3. This license is at
-% https://www.latex-project.org/lppl/ and is part
-% of all distributions of LaTeX version 2005/12/01 or later.
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, version 1.3c.
+% This license is in
+%   https://www.latex-project.org/lppl/lppl-1-3c/
+% and is part of all distributions of LaTeX later than
+% 2008-05-04.
 %
-% This work has the LPPL maintenance status "author-maintained".
+% This work has the LPPL maintenance status "maintained".
 %
-% This program consists of the files listed in the README file
+% This program consists of the files listed in the README.md file
 % included in the package.
 %
 %<*driver>
@@ -97,28 +99,28 @@
 % \maketitle
 %
 % \begin{abstract}
-%   The \Lpack{draftwatermark} package extends \LaTeX\ providing a means
-%   to add a watermark (typically textual and light gray, but possibly
-%   more sophisticated) on the pages of a document (either on every page,
-%   on the first page, or on selected pages). Typical usage may consist in
-%   writing words such as ``DRAFT'' or ``CONFIDENTIAL'' across the
-%   pages. The package may remind in some sense \Lpack{draftcopy} by
-%   Dr.~Juergen Vollmer, but its implementation is lighter (as the reduced
-%   code footprint shows) and does not rely on postscript specials, making
-%   the package fully compatible with \hologo{pdfLaTeX}, \hologo{XeLaTeX}
-%   and \hologo{LuaLaTeX}. The \Lpack{draftwatermark} package depends on
-%   \Lpack{everypage} by the same author. Its feature set is somehow
-%   restricted because the emphasis is on the simplicity of the
-%   interface. For complex layouts, \Lpack{scrlayer.sty} from the
-%   \emph{KOMA script} bundle may represent a valuable alternative.
+%   The \Lpack{draftwatermark} package extends \hologo{LaTeX} providing a
+%   means to add a watermark (typically textual and light gray, but
+%   possibly more sophisticated) on the pages of a document (either on
+%   every page, on the first page, or on selected pages). Typical usage
+%   may consist in writing words such as ``DRAFT'' or ``CONFIDENTIAL''
+%   across the pages. The package may remind in some sense
+%   \Lpack{draftcopy} by Dr.~Juergen Vollmer, but its implementation is
+%   lighter (as the reduced code footprint shows) and does not rely on
+%   postscript specials, making the package fully compatible with
+%   \hologo{pdfLaTeX}, \hologo{XeLaTeX} and \hologo{LuaLaTeX}. Its feature
+%   set is somehow restricted because the emphasis is on the simplicity of
+%   the interface. For complex layouts, consider \Lpack{scrlayer.sty} from
+%   the \emph{KOMA script} bundle or directly using the new \hologo{LaTeX}
+%   shipout hooks.
 % \end{abstract}
 % 
 % \section{Introduction}
 % 
-% This package extends \LaTeX\ providing a means to add a textual, usually
-% light gray (but possibly colored) watermark on every page, the first
-% page, or selected pages of a document. Typical usage may consist in
-% writing words such as ``DRAFT'' or ``CONFIDENTIAL'' across document
+% This package extends \hologo{LaTeX} providing a means to add a textual,
+% usually light gray (but possibly colored) watermark on every page, the
+% first page, or selected pages of a document. Typical usage may consist
+% in writing words such as ``DRAFT'' or ``CONFIDENTIAL'' across document
 % pages.
 %
 % The package may remind in some sense \Lpack{draftcopy} by Dr.~Juergen
@@ -162,11 +164,10 @@
 % other packages affecting the page building, e.g., with respect to the
 % stacking order of the objects on the page. For any complex layout, or
 % when the Z-ordering is important, the recommendation is to look at the
-% \Lpack{scrlayer} package in the \emph{KOMA script} bundle.
+% \Lpack{scrlayer} package in the \emph{KOMA script} bundle or to rely
+% directly on the new shipout hook mechanism provided by \hologo{LaTeX}.
 %
-% For the actual page building \Lpack{draftwatermark} depends on the
-% \Lpack{everypage} package by the same author.
-% 
+%
 % \section{User interface}
 % When loaded, \Lpack{draftwatermark} sets up a number of defaults
 % (detailed later and modifiable by specific commands) and immediately
@@ -185,21 +186,19 @@
 %   |\usepackage[<options>]{draftwatermark}|
 % \end{quote}
 %
-% \DescribeMacro{\DraftwatermarkOptions} 
-% The package behavior can also be dynamically changed \emph{after the
-% package is loaded} by the command |\DraftwatermarkOptions{<options>}|
-% that can be used anywhere in the document source. In either case,
-% |<options>| is a comma separated list of options, each given as a
-% |<key>| or as a |<key>=<value>| pair. Unless otherwise indicated, all
-% options that can be used at the loading of the package can also be given
-% via the |\DraftwatermarkOptions{<options>}| mechanism. In fact, the two
-% things are almost equivalent, with some cautionary
-% details. Specifically, the parsing of options by the |\usepackage|
-% command is a bit quirky, hence when specifying options with the
-% |<key>=<value>| syntax, some values that are accepted by
+% \DescribeMacro{\DraftwatermarkOptions} The package behavior can also be
+% dynamically changed \emph{after the package is loaded} by the command
+% |\DraftwatermarkOptions{<options>}| that can be used anywhere in the
+% document source. In either case, |<options>| is a comma separated list
+% of options, each given as a |<key>| or as a |<key>=<value>| pair. Unless
+% otherwise indicated, all options that can be used at the loading of the
+% package can also be given via the |\DraftwatermarkOptions{<options>}|
+% mechanism. In fact, the two things are almost equivalent, with some
+% cautionary details. Specifically, the parsing of options by the
+% |\usepackage| command is a bit quirky, hence when specifying options
+% with the |<key>=<value>| syntax, some values that are accepted by
 % |\DraftwatermarkOptions| may cause issues when specifying options with
-% |\usepackage|.
-% \medskip
+% |\usepackage|.  \medskip
 %
 % The available options are:
 % \begin{itemize}
@@ -322,21 +321,21 @@
 % fact, sufficiently large to get the word ``DRAFT'', rotated at
 % 45\textdegree, take about half of the page width.
 %
-% Nonetheless asking for a large font may not work, if \LaTeX\ has not
-% been set up to use \emph{scalable} fonts. For this reason, the
-% recommendation is to always use \Lpack{draftwatermark} on \LaTeX\ or
-% \hologo{pdfLaTeX} together with other packages that trigger the usage of
-% fully scalable fonts (practical examples may be \Lpack{newtx} or
+% Nonetheless asking for a large font may not work, if \hologo{LaTeX} has
+% not been set up to use \emph{scalable} fonts. For this reason, the
+% recommendation is to always use \Lpack{draftwatermark} on \hologo{LaTeX}
+% or \hologo{pdfLaTeX} together with other packages that trigger the usage
+% of fully scalable fonts (practical examples may be \Lpack{newtx} or
 % \Lpack{mathptmx}, etc.). An even better alternative is to use modern
 % \TeX\ engines, as in \hologo{XeLaTeX} or \hologo{LuaLaTeX} with
 % \Lpack{fontspec}. In any case, recall that even with scalable fonts,
-% \LaTeX\ may be unable to deal with extremely large font sizes (e.g.,
-% $\gg 5\,\mathrm{cm}$). If really large letters are required for the
-% watermark, a suitable combination of |fontsize| and |scale| may be
+% \hologo{LaTeX} may be unable to deal with extremely large font sizes
+% (e.g., $\gg 5\,\mathrm{cm}$). If really large letters are required for
+% the watermark, a suitable combination of |fontsize| and |scale| may be
 % needed.
 %
-% One can immediately realize when \LaTeX\ is unable to deal with the
-% package default or selected |fontsize| from two things: (i) a font
+% One can immediately realize when \hologo{LaTeX} is unable to deal with
+% the package default or selected |fontsize| from two things: (i) a font
 % warning from \LaTeX; and (ii) a tiny watermark text whose size seems not
 % to react to the |fontsize| option. In this case, either switch to
 % scalable fonts or select a small |fontsize| (e.g., |12pt|) together with
@@ -352,21 +351,21 @@
 % (e.g., |\bfseries|). In fact, it is also possible to use a command to
 % include an image as the text. In case line breaks are present, the text
 % is left, right, center aligned according to the |alignment| option. A
-% word of caution is necessary, though. To use \LaTeX\ commands in the
-% watermark text, please configure the latter via the
+% word of caution is necessary, though. To use \hologo{LaTeX} commands in
+% the watermark text, please configure the latter via the
 % |\DraftwatermarkOptions| command. Trying to do so by passing options to
 % the \Lpack{draftwatermark} package via the |\usepackage| mechanism may
-% fail due to how \LaTeX\ parses option strings. Also note that the text
-% may need to be surrounded by braces.
+% fail due to how \hologo{LaTeX} parses option strings. Also note that the
+% text may need to be surrounded by braces.
 %
 % If the watermark text includes line breaks, \Lpack{draftwatermark} will
 % use a very thin interline space, according to the fact that the
-% multi-line text is managed by surrounding the it with a \LaTeX\
+% multi-line text is managed by surrounding the it with a \hologo{LaTeX}
 % |shortstack| command.
 %
-% Also, note that the watermark typesetting happens inside a \TeX\
-% group, to make sure that any parameter setting you do in the |text|
-% token list can stay local.
+% Also, note that the watermark typesetting happens inside a \TeX\ group,
+% to make sure that any parameter setting you do in the |text| token list
+% can stay local.
 %
 % As a further remark, observe that in order to only put a watermark on
 % selected pages, an alternative to changing the |stamp| configuration
@@ -391,10 +390,10 @@
 % anchoring.
 %
 % As a final remark, observe that the specification of the positioning
-% coordinates can be based on \LaTeX\ macros. For instance, one can set
-% the horizontal position |hpos| at |0.5\paperwidth| (for centering) or at
-% |\dimexpr\paperwidth-5mm| (for placement at the right hand side of the
-% page). Interestingly, \Lpack{draftwatermark} re-evaluates the
+% coordinates can be based on \hologo{LaTeX} macros. For instance, one can
+% set the horizontal position |hpos| at |0.5\paperwidth| (for centering)
+% or at |\dimexpr\paperwidth-5mm| (for placement at the right hand side of
+% the page). Interestingly, \Lpack{draftwatermark} re-evaluates the
 % positioning coordinates on every page. This means that positions based
 % on |\paperwidth| or |\paperheight| should dynamically adjust if the page
 % size is changed through the document. To some extent, this is also true
@@ -402,7 +401,7 @@
 % |hanchor| at |\ifodd\thepage r\else l\fi| causing the anchor point to
 % alternate between |r| and |l| at every new page. In conjunction with a
 % similarly conditional |hpos| setting, for instance
-% |\ifodd\thepage \dimexpr\paperwidth-5mm\else 5mm\fi|, this enables
+% |\ifodd\thepage \dimexpr\paperwidth-5mm \else 5mm\fi|, this enables
 % interesting effects, like placing the watermark close to the right side
 % of the page on odd pages and to the left side of the page on even
 % pages. Obviously, this kind of setting is only applicable with the
