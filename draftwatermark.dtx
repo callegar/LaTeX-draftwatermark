@@ -117,7 +117,9 @@
 % \end{abstract}
 % 
 % \section{Introduction}
-% 
+%
+% \changes{R1.0}{2006/06/30}{Initial release.}%
+% \changes{R1.1}{2012/01/06}{Many small fixes in the documentation.}
 % This package extends \hologo{LaTeX} providing a means to add a textual,
 % usually light gray (but possibly colored) watermark on every page, the
 % first page, or selected pages of a document. Typical usage may consist
@@ -187,22 +189,27 @@
 %   |\usepackage[<options>]{draftwatermark}|
 % \end{quote}
 %
-% \DescribeMacro{\DraftwatermarkOptions} The package behavior can also be
-% dynamically changed \emph{after the package is loaded} by the command
-% |\DraftwatermarkOptions{<options>}| that can be used anywhere in the
-% document source. In either case, |<options>| is a comma separated list
-% of options, each given as a |<key>| or as a |<key>=<value>| pair. Unless
-% otherwise indicated, all options that can be used at the loading of the
-% package can also be given via the |\DraftwatermarkOptions{<options>}|
-% mechanism. In fact, the two things are almost equivalent, with some
-% cautionary details. Specifically, the parsing of options by the
-% |\usepackage| command is a bit quirky, hence when specifying options
-% with the |<key>=<value>| syntax, some values that are accepted by
+% \DescribeMacro{\DraftwatermarkOptions}
+% \changes{R2.0}{2020/03/08}{Introduction of a keyval option mechanism.}
+% The package behavior can also be dynamically changed \emph{after the
+% package is loaded} by the command |\DraftwatermarkOptions{<options>}|
+% that can be used anywhere in the document source. In either case,
+% |<options>| is a comma separated list of options, each given as a
+% |<key>| or as a |<key>=<value>| pair. Unless otherwise indicated, all
+% options that can be used at the loading of the package can also be given
+% via the |\DraftwatermarkOptions{<options>}| mechanism. In fact, the two
+% things are almost equivalent, with some cautionary
+% details. Specifically, the parsing of options by the |\usepackage|
+% command is a bit quirky, hence when specifying options with the
+% |<key>=<value>| syntax, some values that are accepted by
 % |\DraftwatermarkOptions| may cause issues when specifying options with
 % |\usepackage|.  \medskip
 %
 % The available options are:
 % \begin{itemize}
+%   \changes{R1.1}{2012/01/06}{Introduce the ``stamp'', ``nostamp'' and
+%     ``final'' options to control whether the watermark should actually
+%     be printed.}^^A      
 % \item \verb!firstpageonly=true|false!\\
 %   If no value is provided, |true| is assumed. Default is |false|.\\
 %   Instructs \Lpack{draftwatermark} to only apply the watermark on the
@@ -397,7 +404,10 @@
 % the page). Interestingly, \Lpack{draftwatermark} re-evaluates the
 % positioning coordinates on every page. This means that positions based
 % on |\paperwidth| or |\paperheight| should dynamically adjust if the page
-% size is changed through the document. To some extent, this is also true
+% size is changed through the document.
+% \changes{R2.1}{2020/05/11}{Let anchor directives be re-evaluated on
+%   every page.}^^A
+% To some extent, this is also true
 % of the anchor options. For instance, one may set the horizontal anchor
 % |hanchor| at |\ifodd\thepage r\else l\fi| causing the anchor point to
 % alternate between |r| and |l| at every new page. In conjunction with a
@@ -442,8 +452,11 @@
 %
 % \end{sloppy}
 %
-% \section{Compatibility notes for package version 2.0 and later}
+% \section{Compatibility notes}
 %
+% \subsection{Compatibility notes for package version 2.0 and later}
+%
+% \changes{R2.0}{2020/03/08}{Complete package overhaul.}
 % Version 2.0 of the package is an almost complete rewrite with respect to
 % version 1.2. Specifically, all the configuration mechanism has been
 % overhauled, by moving to an interface based on configuration keys and
@@ -465,6 +478,8 @@
 %   Command |\SetWatermarkAngle{<real>}| is the same as\\
 %   |\DraftwatermarkOptions{angle=<real>}|.
 % \item \DescribeMacro{\SetWatermarkColor}^^A
+%   \changes{R1.1}{2012/01/06}{Add support for specifying color
+%     of textual watermark.}^^A
 %   Command |\SetWatermarkColor[<model>]{<color spec>}| is the same as\\
 %   |\DraftwatermarkOptions{color={[<model>]{<color spec>}}}|.
 % \item \DescribeMacro{\SetWatermarkLightness}^^A
@@ -478,9 +493,13 @@
 %   Command |\SetWatermarkScale{<real>}| is the same as\\
 %   |\DraftwatermarkOptions{scale=<real>}|.
 % \item \DescribeMacro{\SetWatermarkHorCenter}^^A
+%   \changes{R1.2}{2015/02/19}{Add support for specifying the watermark
+%     horizontal position.}^^A
 %   Command |\SetWatermarkHorCenter{<length>}| is the same as\\
 %   |\DraftwatermarkOptions{hpos=<length>, hanchor=c}|.
 % \item \DescribeMacro{\SetWatermarkVerCenter}^^A
+%   \changes{R1.2}{2015/02/19}{Add support for specifying the watermark
+%     vertical position.}^^A
 %   Command |\SetWatermarkVerCenter{<length>}| is the same as\\
 %   |\DraftwatermarkOptions{vpos=<length>, vanchor=m}|.
 % \item \DescribeMacro{\SetWatermarkText}^^A
@@ -711,20 +730,6 @@
 % requests that, from the present document, would evidently require moving
 % against some fundamental design decisions.
 %
-% \section{Changelog}
-%
-% \begin{description}
-% \item[1.0 - 2006/06/30] Initial version.
-% \item[1.1 - 2012/01/06] Add support for colored watermarks; options to
-%   disable watermarking; many small fixes in the documentation.
-% \item[1.2 - 2015/02/19] Add support for watermark position.
-% \item[2.0 - 2020/03/08] Configuration management overhaul; introduction
-%   of a legacy interface for compatibility.
-% \item[2.1 - 2020/05/11] Allow anchor information to be re-evaluated on
-%   every page.
-% \item[2.2 - 2020/06/29] Make line breaks in watermark text work. 
-% \end{description}
-%
 % \StopEventually {}
 % 
 % \section{Implementation}
@@ -900,6 +905,8 @@
 %
 % \begin{macro}{\DraftwatermarkStdMark}
 % The command to generate the standard watermark
+% \changes{R2.2}{2020/06/29}{Wrap watermark text in a shortstack to make
+%   line breaks possible.}
 %    \begin{macrocode}
 \newcommand\DraftwatermarkStdMark{%
   \rotatebox{\draftwatermark@angle}{%
@@ -991,6 +998,7 @@
 %
 % \Finale
 % \PrintChanges
+% \pagebreak[1]
 % \PrintIndex
 %
 % \CharacterTable
