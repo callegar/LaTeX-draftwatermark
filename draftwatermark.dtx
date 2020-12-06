@@ -454,6 +454,26 @@
 %
 % \section{Compatibility notes}
 %
+% \subsection{Compatibility notes for package version 3.0 and later}
+% \changes{R3.0}{YYYY/MM/DD}{Remove dependency on package
+% \Lpack{everypage}.}^^A 
+%
+% Version 3.0 of the package takes advantage of the new functionalities
+% introduced in \hologo{LaTeX} with the Fall 2020 release and gets rid of
+% its dependency on \Lpack{everypage}. In principle, this could result in
+% behavioral differences in corner cases.
+%
+% For users of versions of \hologo{LaTeX} before Fall 2020,
+% \Lpack{draftwatermarks} falls back to its own legacy code base, now
+% packaged as \Lpack{draftwatermark-2x}.
+%
+% It is worth remarking that there is no advantage in trying to explicitly
+% load \Lpack{draftwatermark-2x} on a modern \hologo{LaTeX} to try to get
+% the past behavior. In fact, even if the old code base uses
+% \Lpack{everypage}, on modern \hologo{LaTeX} formats, the latter tries
+% itself to rely on the new \hologo{LaTeX} functionalities rather than its
+% own legacy mechanisms.
+%
 % \subsection{Compatibility notes for package version 2.0 and later}
 %
 % \changes{R2.0}{2020/03/08}{Complete package overhaul.}
@@ -733,6 +753,7 @@
 % \StopEventually {}
 % 
 % \section{Implementation}
+% \subsection{Implementation of \Lpack{draftwatermark}}
 %
 % Announce the name and version of the package, which requires
 % \LaTeXe.
