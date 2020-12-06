@@ -1,12 +1,14 @@
 #!/bin/bash
 
 PKGNAME=draftwatermark
-PKGVERS=2-2
 PKGCNT=("README.md")
 TESTFILES=("test_draftwatermark-1" "test_draftwatermark-2" \
            "test_draftwatermark-3" "test_draftwatermark-4" \
            "test_draftwatermark-5")
 TESTENGINES=("pdflatex") 
+
+version=$(grep fileversion\{ $PKGNAME.dtx | sed 's/.*{\(.*\)}.*/\1/')
+PKGVERS=$(echo $version | sed 's/\./-/')
 
 build()
   {
