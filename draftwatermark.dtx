@@ -40,7 +40,7 @@
 %
 % \fi
 %
-% \CheckSum{582}
+% \CheckSum{590}
 %
 % \def\filename{draftwatermark.dtx}
 % \def\fileversion{2.3}
@@ -743,7 +743,19 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{draftwatermark}%
   [2020/12/06 2.3 Put a gray textual watermark on document pages]
-
+%    \end{macrocode}
+% Depending on the actual functionalities provided by \hologo{LaTeX}
+% consider loading \Lpack{draftwatermark-2x}. If so doing, warn about this,
+% and hand over the operation to that package.
+%    \begin{macrocode} 
+\@ifundefined{AddToHook}{%
+  \PackageWarningNoLine{draftwatermark}{%
+    You appear to be running a version of LaTeX\MessageBreak
+    unsupported by current draftwatermark.\MessageBreak
+    Forcing fallback to `draftwatermark-2x` that\MessageBreak
+    uses an older code base}%
+  \RequirePackageWithOptions{draftwatermark-2x}%
+  \endinput}{}
 %    \end{macrocode}
 %
 % Require the needed packages.
@@ -752,7 +764,6 @@
 \RequirePackage{everypage}[2007/06/20]
 \RequirePackage{graphicx}
 \RequirePackage{color}
-
 %    \end{macrocode}
 %
 % Define the configuration options and default values.
@@ -781,7 +792,6 @@
   \draftwatermark@processanchor{#1}}
 \define@key{draftwatermark}{color}{%
   \draftwatermark@processcolor #1\@nil}
-
 %    \end{macrocode}
 %
 % Set up some helper marcros to process the options. These should be
@@ -1020,6 +1030,11 @@
 \RequirePackage{color}
 
 %    \end{macrocode}
+% Set up options and assumptions for the \Lpack{kvoptions} package
+%    \begin{macrocode}
+\SetupKeyvalOptions{family=draftwatermark, prefix=draftwatermark@}
+
+%    \end{macrocode}
 %
 % Define the configuration options and default values.
 %    \begin{macrocode}
@@ -1173,8 +1188,6 @@
 %
 % \begin{macro}{\DraftwatermarkStdMark}
 % The command to generate the standard watermark
-% \changes{R2.2}{2020/06/29}{Wrap watermark text in a shortstack to make
-%   line breaks possible.}
 %    \begin{macrocode}
 \newcommand\DraftwatermarkStdMark{%
   \rotatebox{\draftwatermark@angle}{%
