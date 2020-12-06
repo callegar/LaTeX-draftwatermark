@@ -455,14 +455,16 @@
 % \section{Compatibility notes}
 %
 % \subsection{Compatibility notes for package version 3.0 and later}
+%
 % \changes{R3.0}{YYYY/MM/DD}{Remove dependency on package
 % \Lpack{everypage}.}^^A 
-%
 % Version 3.0 of the package takes advantage of the new functionalities
 % introduced in \hologo{LaTeX} with the Fall 2020 release and gets rid of
 % its dependency on \Lpack{everypage}. In principle, this could result in
 % behavioral differences in corner cases.
 %
+% \changes{R3.0}{YYYY/MM/DD}{Automatically load legacy code for older
+% \hologo{LaTeX} formats.}^^A
 % For users of versions of \hologo{LaTeX} before Fall 2020,
 % \Lpack{draftwatermarks} falls back to its own legacy code base, now
 % packaged as \Lpack{draftwatermark-2x}.
@@ -765,6 +767,8 @@
 \ProvidesPackage{draftwatermark}%
   [2020/12/06 2.3 Put a gray textual watermark on document pages]
 %    \end{macrocode}
+% \changes{R3.0}{YYYY/MM/DD}{Automatically load legacy code for older
+% \hologo{LaTeX} formats.}^^A
 % Depending on the actual functionalities provided by \hologo{LaTeX}
 % consider loading \Lpack{draftwatermark-2x}. If so doing, warn about this,
 % and hand over the operation to that package.
