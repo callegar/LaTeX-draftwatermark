@@ -8,6 +8,6 @@ draftwatermark.ilg
 draftwatermark.ind
 draftwatermark.log
 draftwatermark.pdf
-draftwatermark.sty
+draftwatermark*.sty
 draftwatermark.gls
-test_draftwatermark?.*
+test_draftwatermark-?.*
