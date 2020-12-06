@@ -781,7 +781,6 @@
 % Require the needed packages.
 %    \begin{macrocode}
 \RequirePackage{kvoptions}
-\RequirePackage{everypage}[2007/06/20]
 \RequirePackage{graphicx}
 \RequirePackage{color}
 %    \end{macrocode}
@@ -1019,9 +1018,11 @@
 % assure that the watermark printing commands are called when needed
 %    \begin{macrocode}
 \ifdraftwatermark@firstpageonly
-  \AddThispageHook{\draftwatermark@print{\draftwatermark@markcmd}}
+  \AddToHookNext{shipout/background}{%
+    \put(1in,-1in){\draftwatermark@print{\draftwatermark@markcmd}}}%
 \else
-  \AddEverypageHook{\draftwatermark@print{\draftwatermark@markcmd}}
+  \AddToHook{shipout/background}{%
+    \put(1in,-1in){\draftwatermark@print{\draftwatermark@markcmd}}}%
 \fi
 %    \end{macrocode}
 % \iffalse
