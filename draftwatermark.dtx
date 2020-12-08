@@ -40,7 +40,7 @@
 %
 % \fi
 %
-% \CheckSum{590}
+% \CheckSum{576}
 %
 % \def\filename{draftwatermark.dtx}
 % \def\fileversion{2.3}
@@ -959,9 +959,9 @@
 % The code to actually print the watermark
 %    \begin{macrocode}
 \newcommand\draftwatermark@printwm[1]{%
-  \sbox\@tempboxa{#1}%
+  \sbox\@tempboxa{\raisebox{\depth}{#1}}%
   \setlength{\@tempdima}{\draftwatermark@hpos}%
-  \setlength{\@tempdimb}{\draftwatermark@vpos}%
+  \setlength{\@tempdimb}{-\draftwatermark@vpos}%
   \edef \draftwatermark@tempa{\draftwatermark@hanchor}%
   \@onelevel@sanitize \draftwatermark@tempa
   \expandafter\def\expandafter\draftwatermark@tempb
@@ -982,27 +982,18 @@
   \expandafter\def\expandafter\draftwatermark@tempb
     \expandafter{\expandafter\@car \draftwatermark@tempa\@nil}%
   \if \draftwatermark@tempb b%
-    \addtolength\@tempdimb{-\ht\@tempboxa}%
-    \addtolength\@tempdimb{-\dp\@tempboxa}%
+    \relax
   \else\if \draftwatermark@tempb m%
     \addtolength\@tempdimb{-0.5\ht\@tempboxa}%
-    \addtolength\@tempdimb{-0.5\dp\@tempboxa}%
   \else\if \draftwatermark@tempb t%
-    \relax
+    \addtolength\@tempdimb{-\ht\@tempboxa}%
   \else
     \PackageError{draftwatermark}{%
       Illegal anchor directive `\draftwatermark@tempb'}%
         {Anchoring to top side.}%
   \fi\fi\fi 
-  \vbox to 0pt {%
-      \vspace*{-1in}%
-      \vspace*{\@tempdimb}%
-      \hbox to 0pt {%
-        \hspace*{-1in}%
-        \hspace*{\@tempdima}%
-        \usebox\@tempboxa
-        \hss}%
-      \vss}}
+  \put(\@tempdima,\@tempdimb){\usebox\@tempboxa}%
+}
 
 %    \end{macrocode}
 %
@@ -1019,10 +1010,10 @@
 %    \begin{macrocode}
 \ifdraftwatermark@firstpageonly
   \AddToHookNext{shipout/background}{%
-    \put(1in,-1in){\draftwatermark@print{\draftwatermark@markcmd}}}%
+    \draftwatermark@print{\draftwatermark@markcmd}}%
 \else
   \AddToHook{shipout/background}{%
-    \put(1in,-1in){\draftwatermark@print{\draftwatermark@markcmd}}}%
+    \draftwatermark@print{\draftwatermark@markcmd}}%
 \fi
 %    \end{macrocode}
 % \iffalse
