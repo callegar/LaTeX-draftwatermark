@@ -6,8 +6,7 @@ document. Typical usage may consist in writing words such as "DRAFT" or
 "CONFIDENTIAL" across document pages. The package may remind in some sense
 `draftcopy` by Dr. Juergen Vollmer, but its implementation is lighter (as the
 reduced code footprint shows) and does not rely on postscript specials, making
-the package fully compatible with pdfLaTeX, XeLaTeX and LuaLaTeX. The package
-depends on `everypage.sty` by the same author.
+the package fully compatible with pdfLaTeX, XeLaTeX and LuaLaTeX.
 
 The package focus is on simplicity, for complex layouts please consider
 `scrlayer.sty` in the KOMA script bundle or directly employing the new
